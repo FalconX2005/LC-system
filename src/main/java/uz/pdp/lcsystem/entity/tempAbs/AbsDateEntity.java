@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 @EntityListeners(AuditingEntityListener.class)
 public class AbsDateEntity {
 
+    
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp created;
