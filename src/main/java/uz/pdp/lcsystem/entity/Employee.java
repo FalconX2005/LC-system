@@ -37,5 +37,6 @@ public class Employee  extends AbsLongEntity {
     private User user;
 
 
+    @OneToMany(mappedBy = "employee")
     private List<TeacherAttendance> attendances;
 }
