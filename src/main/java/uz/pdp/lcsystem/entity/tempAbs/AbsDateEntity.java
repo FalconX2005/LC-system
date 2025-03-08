@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class AbsDateEntity {
-
     
     @CreationTimestamp
     @Column(updatable = false)
