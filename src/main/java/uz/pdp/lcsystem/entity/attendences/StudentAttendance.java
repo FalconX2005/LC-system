@@ -3,7 +3,6 @@ package uz.pdp.lcsystem.entity.attendences;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
-
 import uz.pdp.lcsystem.entity.Group;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;

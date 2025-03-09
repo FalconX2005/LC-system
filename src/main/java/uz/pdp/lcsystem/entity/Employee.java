@@ -36,6 +36,5 @@ public class Employee  extends AbsLongEntity {
     @OneToOne
     private User user;
 
-
     private List<TeacherAttendance> attendances;
 }
