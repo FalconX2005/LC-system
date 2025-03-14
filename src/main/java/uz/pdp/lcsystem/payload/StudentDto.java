@@ -1,7 +1,7 @@
 package uz.pdp.lcsystem.payload;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Value;
+import lombok.*;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.enums.Gender;
 
@@ -11,7 +11,10 @@ import java.util.List;
 /**
  * DTO for {@link Student}
  */
-@Value
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class StudentDto implements Serializable {
     Long id;
     String firstName;
