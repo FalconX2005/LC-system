@@ -1,6 +1,8 @@
 package uz.pdp.lcsystem.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.*;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
@@ -20,6 +22,6 @@ public class Course extends AbsLongEntity {
 
     private Long price;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Group> groups;
 }
