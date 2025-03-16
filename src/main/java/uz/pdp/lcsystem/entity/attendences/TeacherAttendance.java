@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 import uz.pdp.lcsystem.entity.Employee;
+import uz.pdp.lcsystem.entity.Group;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
 
 import java.time.LocalDate;
