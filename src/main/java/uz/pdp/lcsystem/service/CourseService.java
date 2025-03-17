@@ -1,6 +1,7 @@
 package uz.pdp.lcsystem.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.pdp.lcsystem.entity.Course;
@@ -17,6 +18,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CourseService {
+
+
+    @Autowired
     private CourseRepository courseRepository;
 
     public List<CourseDTO> getAllCourseList() {
@@ -52,9 +56,11 @@ public class CourseService {
     }
 
     public CourseDTO createCourse(CourseDTO courseDTO) {
-        if (Objects.isNull(courseDTO)) {
-            throw RestException.error("course cannot be null");
-        }
+
+//        Course build = new Course();
+//        build.setCourseName(courseDTO.getName());
+//        build.setPrice(courseDTO.getPrice());
+
 
         Course build = Course.builder()
                 .courseName(courseDTO.getName())

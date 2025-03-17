@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 import uz.pdp.lcsystem.entity.attendences.TeacherAttendance;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.lcsystem.enums.Gender;
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @ToString
 @Builder
+@SQLDelete(sql = "UPDATE employee SET deleted = true WHERE id = ?")
 public class Employee  extends AbsLongEntity {
 
     private String firstName;
