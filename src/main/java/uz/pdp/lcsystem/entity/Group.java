@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.lcsystem.enums.Days;
 import uz.pdp.lcsystem.enums.Status;
@@ -18,6 +19,7 @@ import java.util.List;
 @Setter
 @ToString
 @Builder
+@SQLDelete(sql = "UPDATE groups SET deleted = true WHERE id = ?")
 public class Group extends AbsLongEntity {
     private String groupName;
 

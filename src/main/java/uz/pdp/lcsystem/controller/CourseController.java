@@ -1,6 +1,7 @@
 package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.CourseDTO;
@@ -8,10 +9,11 @@ import uz.pdp.lcsystem.service.CourseService;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
-@RequestMapping("course")
+@RequestMapping("/course")
+@RequiredArgsConstructor
 public class CourseController {
+
     private final CourseService courseService;
 
     @GetMapping
@@ -41,3 +43,4 @@ public class CourseController {
 
 
 }
+

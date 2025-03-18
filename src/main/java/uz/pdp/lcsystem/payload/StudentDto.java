@@ -1,6 +1,5 @@
 package uz.pdp.lcsystem.payload;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.enums.Gender;
@@ -21,7 +20,7 @@ public class StudentDto implements Serializable {
     String lastName;
     Gender gender;
 
-    private Integer userId;
+    private Long userId;
 
     List<StudentAttendanceDTO> attendances;
 }

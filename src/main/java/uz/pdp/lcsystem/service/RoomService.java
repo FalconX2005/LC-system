@@ -1,6 +1,7 @@
 package uz.pdp.lcsystem.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.pdp.lcsystem.entity.Room;
 import uz.pdp.lcsystem.exception.RestException;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RoomService {
+    @Autowired
     private final RoomRepository roomRepository;
 
     public List<RoomDto> getAll() {
@@ -65,6 +67,7 @@ public class RoomService {
                 .name(roomDto.getName())
                 .build();
         roomRepository.save(build);
+        roomDto.setId(build.getId());
         return roomDto;
 
     }
@@ -79,7 +82,8 @@ public class RoomService {
         room.setCapacity(roomDto.getCapacity());
         room.setCountOfChair(roomDto.getCountOfChair());
         room.setCountOfTable(roomDto.getCountOfTable());
-        roomRepository.save(room);
+        Room save = roomRepository.save(room);
+        roomDto.setId(save.getId());
         return roomDto;
     }
     public RoomDto delete(Long id) {

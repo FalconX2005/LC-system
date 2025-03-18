@@ -15,6 +15,7 @@ import uz.pdp.lcsystem.enums.RoleEnum;
 @Setter
 @ToString
 @Builder
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
 public class User extends AbsLongEntity {
 
     private String username;
