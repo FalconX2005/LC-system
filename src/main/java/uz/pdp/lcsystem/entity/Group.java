@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.lcsystem.enums.Days;
 import uz.pdp.lcsystem.enums.Status;
@@ -11,27 +12,34 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-@Entity
+@Entity(name = "groups")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @Builder
+@SQLDelete(sql = "UPDATE groups SET deleted = true WHERE id = ?")
 public class Group extends AbsLongEntity {
     private String groupName;
 
     @ManyToOne
     private Course course;
 
-    @ManyToOne
-    private Employee employee;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Employee employee;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "group")
+    private List<EmployeeGroup> groups;
+
+
 
     @ManyToOne
     private Room room;
 
-    @OneToMany
-    private List<Student> students;
+//    @OneToMany(mappedBy = "group",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    private List<Student> students;
 
     private Long stNumber;
 
