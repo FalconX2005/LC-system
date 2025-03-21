@@ -16,6 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RoomService {
+
     @Autowired
     private final RoomRepository roomRepository;
 

@@ -25,17 +25,21 @@ public class GroupStudentsController {
         GroupStudentsDto byId = groupStudentsService.getById(id);
         return ApiResult.success(byId);
     }
+
+    // studentni guruhga biriktirish uchun yozilgan method
     @PostMapping("/assing-student")
     public ApiResult<GroupStudentsDto> assingStudent(@RequestBody GroupStudentsDto groupStudents) {
         GroupStudentsDto groupStudentsDto = groupStudentsService.assignStudentToGroup(groupStudents);
         return ApiResult.success(groupStudentsDto);
     }
+
     @PutMapping("/update/{id}")
     public ApiResult<GroupStudentsDto> update(@PathVariable Long id,
                                               @RequestBody GroupStudentsDto groupStudents) {
         GroupStudentsDto update = groupStudentsService.update(groupStudents);
         return ApiResult.success(update);
     }
+
     @DeleteMapping("/{id}")
     public ApiResult<GroupStudentsDto> delete(@PathVariable Long id) {
         GroupStudentsDto delete = groupStudentsService.delete(id);
