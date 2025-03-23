@@ -25,12 +25,7 @@ public class GroupService {
     private final RoomRepository roomRepository;
 
 
-    public List<GroupDTO> getAllGroups() {
-        List<Group> groups = groupRepository.findByDeletedFalse();
-        return groups.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
+
 
     public GroupDTO getGroupById(Long id) {
         Group group = groupRepository.findById(id)
@@ -39,6 +34,12 @@ public class GroupService {
             throw RestException.notFound("Group not found", id);
         }
         return convertToDTO(group);
+    }
+    public List<GroupDTO> getAllGroups() {
+        List<Group> groups = groupRepository.findByDeletedFalse();
+        return groups.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
