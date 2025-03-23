@@ -44,5 +44,7 @@ public class Employee  extends AbsLongEntity {
     @OneToOne
     private User user;
 
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeacherAttendance> attendances;
 }
