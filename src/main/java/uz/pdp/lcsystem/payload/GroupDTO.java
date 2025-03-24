@@ -24,7 +24,7 @@ public class GroupDTO {
 
     private Long employeeId;
 
-    private List<StudentDto> students;
+    private List<StudentDTO> students;
 
     private Long roomId;
 

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-@Entity
+@Entity(name = "groups")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,14 +24,12 @@ public class Group extends AbsLongEntity {
     @ManyToOne
     private Course course;
 
-    @ManyToOne
-    private Employee employee;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "group")
+    private List<EmployeeGroup> employeeGroups;
 
     @ManyToOne
     private Room room;
-
-    @OneToMany
-    private List<Student> students;
 
     private Long stNumber;
 
@@ -48,7 +46,4 @@ public class Group extends AbsLongEntity {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-
-
 }

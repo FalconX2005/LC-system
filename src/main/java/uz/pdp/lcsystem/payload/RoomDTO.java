@@ -9,7 +9,7 @@ import java.io.Serializable;
  * DTO for {@link Room}
  */
 @Value
-public class RoomDto implements Serializable {
+public class RoomDTO implements Serializable {
     Long id;
     String name;
     Integer capacity;
