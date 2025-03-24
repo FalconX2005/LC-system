@@ -19,12 +19,14 @@ import java.util.List;
 @Data
 @Builder
 public class StudentDto implements Serializable {
+
     private Long id;
+
+
     private String firstName;
     private String lastName;
     private Gender gender;
-
-
+    private String phoneNumber;
     private String username;
 
     private String password;

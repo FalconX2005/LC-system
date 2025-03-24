@@ -23,6 +23,8 @@ public class Student extends AbsLongEntity {
 
     private String lastName;
 
+    private String phoneNumber;
+
     @ToString.Exclude
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private List<GroupStudents> groupStudents;
