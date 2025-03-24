@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/lc_system
+    url: jdbc:postgresql://localhost:5432/lc_system_pro
     username: postgres
     password: 123
     driverClassName: org.postgresql.Driver
