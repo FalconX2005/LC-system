@@ -10,7 +10,4 @@ import java.util.List;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-        List<Course> findByCourseNameContainingIgnoreCase(String query);
-        /*@Query(value = "SELECT * FROM courses WHERE to_tsvector('simple', title) @@ to_tsquery(:keyword)", nativeQuery = true)
-        List<Course> searchByTitle(@Param("keyword") String keyword);
-*/}
+}

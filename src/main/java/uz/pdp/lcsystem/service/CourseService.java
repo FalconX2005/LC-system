@@ -61,24 +61,7 @@ public class CourseService {
         courseRepository.save(build);
         return courseDTO;
     }
-    public List<CourseDTO> searchCourses(String query) {
-        List<CourseDTO> courseDTOList = new ArrayList<>();
-        List<Course> courses = courseRepository.findByCourseNameContainingIgnoreCase(query);
 
-        for (Course course : courses) {
-            CourseDTO dto = CourseDTO.builder()
-                    .id(course.getId())
-                    .name(course.getCourseName())
-                    .price(course.getPrice())
-                    .build();
-            courseDTOList.add(dto);
-        }
-        return courseDTOList;
-    }
-    public List<Course> searchCoursesByTitle(String keyword) {
-        String formattedKeyword = keyword.replace(" ", " & "); // PostgreSQL search formatiga moslash
-        return courseRepository.searchByTitle(formattedKeyword);
-    }
 
     public boolean deleteCourseById(Long id) {
         Optional<Course> byId = courseRepository.findById(id);

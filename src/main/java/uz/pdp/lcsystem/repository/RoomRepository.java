@@ -10,8 +10,5 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    List<Room> findByName(String name);/*
-    @Query(value = "SELECT * FROM rooms WHERE to_tsvector('simple', title) @@ to_tsquery(:keyword)", nativeQuery = true)
-    List<Room> searchByTitle(@Param("keyword") String keyword);*/
-
+    List<Room> findByName(String name);
 }

@@ -83,10 +83,7 @@ public class RoomService {
         return roomDto;
     }
 
-    public List<Room>searchRoomsByTitle(String keyword) {
-        String formattedKeyword = keyword.replace(" ", " & "); // PostgreSQL formatiga moslash
-        return roomRepository.searchByTitle(formattedKeyword);
-    }
+
 
     public RoomDto delete(Long id) {
         Optional<Room> byId = roomRepository.findById(id);

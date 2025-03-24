@@ -160,23 +160,7 @@ public class SearchService {
                 .build();
     }
 
-    /*public List<CourseDTO> searchCourse(String name) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Course> criteriaQuery = cb.createQuery(Course.class);
-        Root<Course> root = criteriaQuery.from(Course.class);
-        List<Predicate> predicates = new ArrayList<>();
-
-        Path<String> courseNamePath = root.get("name");
-        Predicate courseNamePredicate = cb.like(cb.lower(courseNamePath), "%" + name.toLowerCase() + "%");
-        predicates.add(courseNamePredicate);
-
-        criteriaQuery.where(predicates.toArray(new Predicate[0]));
-
-        List<Course> courses = entityManager.createQuery(criteriaQuery).getResultList();
-
-        return courses.stream().map(this::convertToDto).collect(Collectors.toList());
-    }
-*/  public List<CourseDTO> searchCourse(String name) {
+   public List<CourseDTO> searchCourse(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Course> criteriaQuery = cb.createQuery(Course.class);
         Root<Course> root = criteriaQuery.from(Course.class);
