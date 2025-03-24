@@ -19,8 +19,11 @@ public class TeacherAttendanceDTO {
 
     private Long teacherId;
 
+    private String teacherName;
+
     private Long groupId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "UTC")
     private LocalDate attendanceDate;
 
     private boolean status;
