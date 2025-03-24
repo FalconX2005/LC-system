@@ -2,7 +2,7 @@ package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
+import uz.pdp.lcsystem.entity.attendences.StudentAttendance;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.StudentAttendanceDTO;
 import uz.pdp.lcsystem.service.StudentAttendanceService;

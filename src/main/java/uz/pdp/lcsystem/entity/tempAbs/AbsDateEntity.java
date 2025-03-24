@@ -31,7 +31,6 @@ public class AbsDateEntity {
     private boolean deleted;
 
     @CreatedBy
-
     private String createdBy;
 
     @LastModifiedBy

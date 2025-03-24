@@ -18,6 +18,7 @@ import uz.pdp.lcsystem.enums.RoleEnum;
 @SQLDelete(sql = "UPDATE attachment SET deleted = true WHERE id = ?")
 public class User extends AbsLongEntity {
 
+    @Column(unique = true, nullable = false)
     private String username;
 
     private String password;

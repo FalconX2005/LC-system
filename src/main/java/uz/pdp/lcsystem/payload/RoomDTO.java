@@ -1,6 +1,6 @@
 package uz.pdp.lcsystem.payload;
 
-import lombok.Value;
+import lombok.*;
 import uz.pdp.lcsystem.entity.Room;
 
 import java.io.Serializable;
@@ -8,8 +8,11 @@ import java.io.Serializable;
 /**
  * DTO for {@link Room}
  */
-@Value
-public class RoomDTO implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
+public class RoomDto implements Serializable {
     Long id;
     String name;
     Integer capacity;
