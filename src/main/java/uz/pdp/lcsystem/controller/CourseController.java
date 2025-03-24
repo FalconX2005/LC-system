@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.entity.Course;
 import uz.pdp.lcsystem.payload.ApiResult;
@@ -11,10 +12,12 @@ import uz.pdp.lcsystem.service.SearchService;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @RestController
-@RequestMapping("course")
+@RequestMapping("/course")
+@RequiredArgsConstructor
 public class CourseController {
+
     private final CourseService courseService;
     private final SearchService searchService;
     @GetMapping
@@ -47,3 +50,4 @@ public class CourseController {
 
 
 }
+

@@ -1,8 +1,10 @@
 package uz.pdp.lcsystem.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.pdp.lcsystem.entity.Course;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.ApiResult;
@@ -17,6 +19,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CourseService {
+
+
+    @Autowired
     private CourseRepository courseRepository;
 
     public List<CourseDTO> getAllCourseList() {
@@ -51,10 +56,9 @@ public class CourseService {
         throw RestException.notFound("course not found", HttpStatus.NOT_FOUND);
     }
 
+    @Transactional
     public CourseDTO createCourse(CourseDTO courseDTO) {
-
-
-        Course build = Course.builder()
+                Course build = Course.builder()
                 .courseName(courseDTO.getName())
                 .price(courseDTO.getPrice())
                 .build();
@@ -62,7 +66,7 @@ public class CourseService {
         return courseDTO;
     }
 
-
+    @Transactional
     public boolean deleteCourseById(Long id) {
         Optional<Course> byId = courseRepository.findById(id);
         if (byId.isPresent()) {

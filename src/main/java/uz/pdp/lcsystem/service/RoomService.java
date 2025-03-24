@@ -1,7 +1,9 @@
 package uz.pdp.lcsystem.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.pdp.lcsystem.entity.Room;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.RoomDto;
@@ -14,6 +16,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RoomService {
+
+    @Autowired
     private final RoomRepository roomRepository;
 
     public List<RoomDto> getAll() {
@@ -53,6 +57,7 @@ public class RoomService {
 
     }
 
+    @Transactional
     public RoomDto create(RoomDto roomDto) {
         List<Room> byName = roomRepository.findByName(roomDto.getName());
         if (!byName.isEmpty()) {
@@ -65,10 +70,12 @@ public class RoomService {
                 .name(roomDto.getName())
                 .build();
         roomRepository.save(build);
+        roomDto.setId(build.getId());
         return roomDto;
 
     }
 
+    @Transactional
     public RoomDto update(RoomDto roomDto) {
         Optional<Room> byId = roomRepository.findById(roomDto.getId());
         if (!byId.isPresent()) {
@@ -79,12 +86,11 @@ public class RoomService {
         room.setCapacity(roomDto.getCapacity());
         room.setCountOfChair(roomDto.getCountOfChair());
         room.setCountOfTable(roomDto.getCountOfTable());
-        roomRepository.save(room);
+        Room save = roomRepository.save(room);
+        roomDto.setId(save.getId());
         return roomDto;
     }
-
-
-
+    @Transactional
     public RoomDto delete(Long id) {
         Optional<Room> byId = roomRepository.findById(id);
         if (!byId.isPresent()) {

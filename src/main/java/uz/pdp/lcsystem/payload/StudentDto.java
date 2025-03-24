@@ -1,14 +1,14 @@
 package uz.pdp.lcsystem.payload;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.enums.Gender;
 import uz.pdp.lcsystem.enums.RoleEnum;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,21 +19,23 @@ import java.util.List;
 @Data
 @Builder
 public class StudentDto implements Serializable {
-    Long id;
-    String firstName;
-    String lastName;
-    Gender gender;
 
+    private Long id;
+
+
+    private String firstName;
+    private String lastName;
+    private Gender gender;
+    private String phoneNumber;
     private String username;
 
-    @JsonIgnore
     private String password;
     private String email;
     private RoleEnum role;
-//    private Integer userId;
-
-    List<StudentAttendanceDTO> attendances;
 
 
 
+//    private Long userId;
+
+    private List<StudentAttendanceDTO> attendances;
 }
