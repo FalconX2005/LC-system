@@ -22,6 +22,8 @@ public class Employee  extends AbsLongEntity {
 
     private String lastName;
 
+    private String fullName;
+
     private LocalDate birthDate;
 
     private String phoneNumber;
@@ -32,11 +34,6 @@ public class Employee  extends AbsLongEntity {
     @ToString.Exclude
     @OneToMany(mappedBy = "employee")
     private List<EmployeeGroup> groups;
-
-
-
-    //    @OneToMany(mappedBy = "employee")
-//    private List<Group> groups;
 
     private Long salary;
 

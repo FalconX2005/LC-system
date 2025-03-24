@@ -8,36 +8,26 @@ import uz.pdp.lcsystem.enums.Status;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
-@Entity(name = "groups")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@Builder
+@Builder@Entity(name = "groups")
 public class Group extends AbsLongEntity {
     private String groupName;
 
     @ManyToOne
     private Course course;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private Employee employee;
-
     @ToString.Exclude
-    @OneToMany(mappedBy = "group")
-    private List<EmployeeGroup> groups;
-
-
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EmployeeGroup> employeeGroups;  // O‘zgaruvchini ham to‘g‘ri nomladim
 
     @ManyToOne
     private Room room;
-
-//    @OneToMany(mappedBy = "group",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    private List<Student> students;
 
     private Long stNumber;
 
@@ -45,16 +35,11 @@ public class Group extends AbsLongEntity {
     private Days days;
 
     private Timestamp startTime;
-
     private Timestamp endTime;
 
     private LocalDate startDate;
-
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-
-
 }

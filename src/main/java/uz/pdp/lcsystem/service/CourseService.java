@@ -52,9 +52,7 @@ public class CourseService {
     }
 
     public CourseDTO createCourse(CourseDTO courseDTO) {
-        if (Objects.isNull(courseDTO)) {
-            throw RestException.error("course cannot be null");
-        }
+
 
         Course build = Course.builder()
                 .courseName(courseDTO.getName())
@@ -62,6 +60,24 @@ public class CourseService {
                 .build();
         courseRepository.save(build);
         return courseDTO;
+    }
+    public List<CourseDTO> searchCourses(String query) {
+        List<CourseDTO> courseDTOList = new ArrayList<>();
+        List<Course> courses = courseRepository.findByCourseNameContainingIgnoreCase(query);
+
+        for (Course course : courses) {
+            CourseDTO dto = CourseDTO.builder()
+                    .id(course.getId())
+                    .name(course.getCourseName())
+                    .price(course.getPrice())
+                    .build();
+            courseDTOList.add(dto);
+        }
+        return courseDTOList;
+    }
+    public List<Course> searchCoursesByTitle(String keyword) {
+        String formattedKeyword = keyword.replace(" ", " & "); // PostgreSQL search formatiga moslash
+        return courseRepository.searchByTitle(formattedKeyword);
     }
 
     public boolean deleteCourseById(Long id) {

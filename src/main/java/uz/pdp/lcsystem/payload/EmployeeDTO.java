@@ -26,14 +26,9 @@ public class EmployeeDTO {
 
     private Gender gender;
 
-//    private List<GroupDTO> groups;
-
     private Long salary;
 
     private Integer userId;
 
     private List<TeacherAttendanceDTO> attendances;
-
-
-
 }
