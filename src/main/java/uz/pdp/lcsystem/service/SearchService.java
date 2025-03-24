@@ -183,9 +183,9 @@ public class SearchService {
                 .id(course.getId())
                 .name(course.getCourseName())
                 .price(course.getPrice())
-                .groups(course.getGroups() != null
-                        ? course.getGroups().stream().map(this::convertToGroupDto).collect(Collectors.toList())
-                        : new ArrayList<>())
+//                .groups(course.getGroups() != null
+//                        ? course.getGroups().stream().map(this::convertToGroupDto).collect(Collectors.toList())
+//                        : new ArrayList<>())
                 .build();
     }
     private GroupDTO convertToGroupDto(Group group) {

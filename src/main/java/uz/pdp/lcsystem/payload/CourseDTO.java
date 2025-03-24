@@ -19,7 +19,7 @@ public class CourseDTO {
 
     private Long price;
 
-    private List<GroupDTO> groups;
+//    private List<GroupDTO> groups;
 
 
 
