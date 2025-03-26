@@ -37,5 +37,5 @@ public class StudentDto implements Serializable {
 
 //    private Long userId;
 
-    private List<StudentAttendanceDTO> attendances;
+//    private List<StudentAttendanceDTO> attendances;
 }

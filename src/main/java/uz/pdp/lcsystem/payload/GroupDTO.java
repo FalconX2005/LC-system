@@ -15,33 +15,23 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
+
 public class GroupDTO {
     private Long id;
-
     private String name;
-
     private Long courseId;
-
     private Long employeeId;
-
-    private List<StudentDto> students;
-
     private Long roomId;
-
     private Long stNumber;
-
     private Days   days;
-
     private Timestamp startTime;
-
     private Timestamp endTime;
-
     private LocalDate startDate;
-
     private LocalDate endDate;
-
     private Status  status;
 
-
-
 }
+
+
+
+

@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -19,6 +20,8 @@ public class EmployeeGroup extends AbsLongEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Employee employee;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Group group;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group group;  // `group` deb nomladik
 }
