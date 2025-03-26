@@ -1,6 +1,7 @@
 package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.entity.attendences.StudentAttendance;
 import uz.pdp.lcsystem.payload.ApiResult;
@@ -13,6 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/attendance")
 public class StudentAttendanceController {
+
+
     private final StudentAttendanceService studentAttendanceService;
 
     //barcha attendance larni korish uchun yozilgan !!!

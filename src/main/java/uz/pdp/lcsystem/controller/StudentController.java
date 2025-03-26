@@ -1,12 +1,11 @@
-
 package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.StudentDto;
 import uz.pdp.lcsystem.service.StudentService;
-import uz.pdp.lcsystem.service.SearchService;
 
 import java.util.List;
 
@@ -52,5 +51,5 @@ public class StudentController {
         StudentDto result = studentService.delete(id);
         return ApiResult.success(result);
     }
-}
 
+}

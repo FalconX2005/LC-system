@@ -7,7 +7,6 @@ import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.entity.attendences.StudentAttendance;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.StudentAttendanceDTO;
-import uz.pdp.lcsystem.payload.StudentDto;
 import uz.pdp.lcsystem.repository.GroupRepository;
 import uz.pdp.lcsystem.repository.StudentAttendanceRepository;
 import uz.pdp.lcsystem.repository.StudentRepository;
@@ -49,7 +48,6 @@ public class StudentAttendanceService {
     public List<StudentAttendanceDTO> getAttendancesByGroup(Long groupId) {
         List<StudentAttendance> byGroupId = studentAttendanceRepository.findByGroupId(groupId);
         List<StudentAttendanceDTO> resultList = new ArrayList<>();
-
         for (StudentAttendance attendance : byGroupId) {
             StudentAttendanceDTO build = StudentAttendanceDTO.builder()
                     .attendanceDate(attendance.getAttendanceDate())

@@ -16,7 +16,7 @@ public class RestException extends RuntimeException {
     }
 
     public static RestException error(String message) {
-        return new RestException(message, 400); // Default: 400 (BAD REQUEST)
+        return new RestException(message, 400);
     }
 
     public static RestException notFound(String message, Object id) {
