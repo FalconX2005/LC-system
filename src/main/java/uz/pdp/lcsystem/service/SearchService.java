@@ -20,7 +20,7 @@ public class SearchService {
 
     private final EntityManager entityManager;
 
-    public List<StudentDto> searchStudent(String name) {
+    public List<StudentDTO> searchStudent(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Student> criteriaQuery = cb.createQuery(Student.class);
         Root<Student> root = criteriaQuery.from(Student.class);
@@ -43,8 +43,8 @@ public class SearchService {
         return students.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    private StudentDto convertToDto(Student student) {
-        return StudentDto.builder()
+    private StudentDTO convertToDto(Student student) {
+        return StudentDTO.builder()
                 .id(student.getId())
                 .firstName(student.getFirstName())
                 .lastName(student.getLastName())
@@ -130,7 +130,7 @@ public class SearchService {
                 .gender(employee.getGender())
                 .salary(employee.getSalary())
                 .userId((int) employee.getUser().getId().longValue())
-                .attendances(employee.getAttendances().stream().map(this::convertAttendanceToDto).collect(Collectors.toList()))
+
                 .build();
     }
 
@@ -142,7 +142,7 @@ public class SearchService {
                 .build();
     }
    /// //////////////////////////
-    public List<RoomDto> searchRoom(String name) {
+    public List<RoomDTO> searchRoom(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Room> criteriaQuery = cb.createQuery(Room.class);
         Root<Room> root = criteriaQuery.from(Room.class);
@@ -163,8 +163,8 @@ public class SearchService {
         return rooms.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    private RoomDto convertToDto(Room room) {
-        return RoomDto.builder()
+    private RoomDTO convertToDto(Room room) {
+        return RoomDTO.builder()
                 .id(room.getId())
                 .name(room.getName())
                 .capacity(room.getCapacity())
