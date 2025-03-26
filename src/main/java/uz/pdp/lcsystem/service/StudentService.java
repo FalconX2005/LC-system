@@ -49,6 +49,7 @@ public class StudentService {
                     .email(student.getUser().getEmail())
                     .role(student.getUser().getRoleEnum())
                     .gender(student.getGender())
+                    .phoneNumber(student.getPhoneNumber())
 //                    .attendances(student.getAttendances())
 
                     .build();
@@ -73,6 +74,7 @@ public class StudentService {
                     .username(student.getUser().getUsername())
                     .email(student.getUser().getEmail())
                     .role(student.getUser().getRoleEnum())
+                    .phoneNumber(student.getPhoneNumber())
 //                    .attendances(student.getAttendances())
                     .build();
             return build;
@@ -94,6 +96,7 @@ public class StudentService {
                 .firstName(studentDto.getFirstName())
                 .lastName(studentDto.getLastName())
                 .gender(studentDto.getGender())
+                .phoneNumber(studentDto.getPhoneNumber())
                 .user(build)
                 .build();
 
@@ -113,6 +116,7 @@ public class StudentService {
             byUsername.setRoleEnum(studentDto.getRole());
 
 
+
             Optional<Student> byId = studentRepository.findById(id);
             if (byId.isPresent()) {
                 Student student = byId.get();
@@ -120,6 +124,7 @@ public class StudentService {
                 student.setLastName(studentDto.getLastName());
                 student.setGender(studentDto.getGender());
                 student.setUser(byUsername);
+                student.setPhoneNumber(studentDto.getPhoneNumber());
                 userRepository.save(byUsername);
                 studentRepository.save(student);
                 return studentDto;
@@ -148,6 +153,7 @@ public class StudentService {
                     .username(student.getUser().getUsername())
                     .email(student.getUser().getEmail())
                     .role(student.getUser().getRoleEnum())
+                    .phoneNumber(student.getPhoneNumber())
                     .build();
             return result;
         }
