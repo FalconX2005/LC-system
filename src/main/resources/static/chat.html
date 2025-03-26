@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat { width: 50%; margin: auto; padding: 20px; border: 1px solid #ddd; }
+        #messages { height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; }
+        .message { padding: 5px; margin: 5px 0; border-radius: 5px; }
+        .my-message { background-color: lightblue; text-align: right; }
+        .other-message { background-color: white; text-align: left; }
+        input, button { width: 100%; padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="chat">
+    <h2>Group Chat</h2>
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    let username = prompt("Enter your username:");
+    while (!username || username.trim() === "") {
+        username = prompt("Username cannot be empty! Enter your username:");
+    }
+
+    let socket = new WebSocket("ws://10.10.2.36:8080/chat");
+
+    socket.onopen = function() {
+        console.log("Connected to chat server");
+    };
+
+    socket.onmessage = function(event) {
+        let messagesDiv = document.getElementById("messages");
+        let messageElement = document.createElement("p");
+
+        let messageText = event.data;
+        let sender = messageText.split(":")[0].trim(); // Xabar yuboruvchisini ajratish
+        let messageContent = messageText.split(":").slice(1).join(":").trim(); // Xabar matni
+
+        messageElement.textContent = `${sender}: ${messageContent}`;
+        messageElement.classList.add("message");
+
+        if (sender === username) {
+            messageElement.classList.add("my-message"); // Agar o‘zingiz yozgan bo‘lsangiz, ko‘k rang
+        } else {
+            messageElement.classList.add("other-message"); // Boshqa odam yozgan bo‘lsa, oq rang
+        }
+
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    };
+
+    function sendMessage() {
+        let input = document.getElementById("message");
+        let message = input.value.trim();
+        if (message !== "") {
+            let formattedMessage = `${username}: ${message}`;
+            socket.send(formattedMessage);
+            input.value = "";
+        }
+    }
+</script>
+
+</body>
+</html>
