@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.GroupDTO;
+import uz.pdp.lcsystem.payload.SearchGroupDTO;
 import uz.pdp.lcsystem.service.GroupService;
 import uz.pdp.lcsystem.service.SearchService;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
+    private final SearchService searchService;
 
     @Operation(summary = "Get all groups", description = "Retrieve a list of all groups")
     @GetMapping
@@ -34,12 +36,19 @@ public class GroupController {
         GroupDTO group = groupService.getGroupById(id);
         return ApiResult.success(group);
     }
-   private final SearchService searchService;
-
-   @GetMapping("/search")
-    public ApiResult<List<GroupDTO>> searchGroups(@RequestParam String name) {
-        List<GroupDTO> result = searchService.searchGroup(name);
+   
+    @GetMapping("/search")
+    public ApiResult<List<GroupDTO>> searchGroup(@RequestParam String name) {
+        return ApiResult.success(searchService.searchGroup(name));
+    }
+/*
+    @GetMapping("/search")
+    public ApiResult<List<SearchGroupDTO>> searchGroups(@RequestParam String name) {
+        List<SearchGroupDTO> result = searchService.searchGroup(name);
         return ApiResult.success(result);
+    }
+*/
+
     @Operation(summary = "Create a new group", description = "Create a new group with course, teacher, students, and room")
     @PostMapping
     public ApiResult<GroupDTO> createGroup(@RequestBody GroupDTO groupDTO) {

@@ -6,21 +6,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.pdp.lcsystem.entity.*;
 import uz.pdp.lcsystem.entity.attendences.TeacherAttendance;
+import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import uz.pdp.lcsystem.repository.StudentRepository;
+
 
 @Service
 @RequiredArgsConstructor
 public class SearchService {
 
-    private final StudentRepository studentRepository;
     private final EntityManager entityManager;
-
 
     public List<StudentDto> searchStudent(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -28,36 +26,43 @@ public class SearchService {
         Root<Student> root = criteriaQuery.from(Student.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        Path<String> firstName1 = root.get("firstName");
-        Predicate firstName = cb.like(firstName1,
-                    "%" +
-                            name
-                            + "%");
-        predicates.add(firstName);
+        Predicate firstNamePredicate = cb.like(cb.lower(root.get("firstName")), "%" + name.toLowerCase() + "%");
+
+        Predicate lastNamePredicate = cb.like(cb.lower(root.get("lastName")), "%" + name.toLowerCase() + "%");
+
+        Predicate searchPredicate = cb.or(firstNamePredicate, lastNamePredicate);
+        predicates.add(searchPredicate);
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
+
         List<Student> students = entityManager.createQuery(criteriaQuery).getResultList();
-        return (List<StudentDto>) students.stream().map(this::convertToDto).collect(Collectors.toList());
+        if (students.isEmpty()) {
+            throw RestException.error("Student not found");
+        }
+
+        return students.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
     private StudentDto convertToDto(Student student) {
         return StudentDto.builder()
+                .id(student.getId())
                 .firstName(student.getFirstName())
                 .lastName(student.getLastName())
                 .email(student.getUser().getEmail())
-                .id(student.getId())
                 .gender(student.getGender())
                 .role(student.getUser().getRoleEnum())
                 .username(student.getUser().getUsername())
                 .build();
     }
 
+    /// /////////////////////////////
     public List<GroupDTO> searchGroup(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Group> criteriaQuery = cb.createQuery(Group.class);
         Root<Group> root = criteriaQuery.from(Group.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        Path<String> groupNamePath = root.get("name");
+        Path<String> groupNamePath = root.get("groupName");
         Predicate groupNamePredicate = cb.like(cb.lower(groupNamePath), "%" + name.toLowerCase() + "%");
         predicates.add(groupNamePredicate);
 
@@ -65,19 +70,23 @@ public class SearchService {
 
         List<Group> groups = entityManager.createQuery(criteriaQuery).getResultList();
 
+        if (groups.isEmpty()) {
+            throw RestException.error("Group not found");
+        }
+
         return groups.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     private GroupDTO convertToDto(Group group) {
         return GroupDTO.builder()
                 .id(group.getId())
-                .groupName(group.getGroupName())
-                .employeeName(group.getEmployeeGroups().isEmpty() ?
-                        "No Employee Assigned" :
-                        getEmployeeFullName(group.getEmployeeGroups().get(0).getEmployee()))
-                .courseName(group.getCourse().getCourseName())
-                .roomName(group.getRoom().getName())
-                .studentCount(group.getStNumber())
+                .name(group.getGroupName())
+                .courseId(group.getCourse() != null ? group.getCourse().getId() : null)
+                .employeeId(group.getGroups() != null && !group.getGroups().isEmpty()
+                        ? group.getGroups().get(0).getEmployee().getId()
+                        : null)
+                .roomId(group.getRoom() != null ? group.getRoom().getId() : null)
+                .stNumber(group.getStNumber())
                 .startTime(group.getStartTime())
                 .endTime(group.getEndTime())
                 .startDate(group.getStartDate())
@@ -85,11 +94,7 @@ public class SearchService {
                 .status(group.getStatus())
                 .build();
     }
-
-    private String getEmployeeFullName(Employee employee) {
-        return employee.getFirstName() + " " + employee.getLastName();
-    }
-
+    /// //////////////////////////
     public List<EmployeeDTO> searchEmployee(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Employee> criteriaQuery = cb.createQuery(Employee.class);
@@ -107,6 +112,10 @@ public class SearchService {
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
         List<Employee> employees = entityManager.createQuery(criteriaQuery).getResultList();
+
+        if (employees.isEmpty()) {
+            throw RestException.error("Employee not found");
+        }
 
         return employees.stream().map(this::convertToDto).collect(Collectors.toList());
     }
@@ -132,7 +141,7 @@ public class SearchService {
                 .status(attendance.isStatus())
                 .build();
     }
-
+   /// //////////////////////////
     public List<RoomDto> searchRoom(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Room> criteriaQuery = cb.createQuery(Room.class);
@@ -147,6 +156,10 @@ public class SearchService {
 
         List<Room> rooms = entityManager.createQuery(criteriaQuery).getResultList();
 
+        if (rooms.isEmpty()) {
+            throw RestException.error("Room not found");
+        }
+
         return rooms.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
@@ -159,13 +172,12 @@ public class SearchService {
                 .countOfChair(room.getCountOfChair())
                 .build();
     }
-
-   public List<CourseDTO> searchCourse(String name) {
+    /// ///////////////////////////////
+    public List<CourseDTO> searchCourse(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Course> criteriaQuery = cb.createQuery(Course.class);
         Root<Course> root = criteriaQuery.from(Course.class);
         List<Predicate> predicates = new ArrayList<>();
-
 
         Path<String> courseNamePath = root.get("courseName");
         Predicate courseNamePredicate = cb.like(cb.lower(courseNamePath), "%" + name.toLowerCase() + "%");
@@ -175,6 +187,10 @@ public class SearchService {
 
         List<Course> courses = entityManager.createQuery(criteriaQuery).getResultList();
 
+        if (courses.isEmpty()) {
+            throw RestException.error("Course not found");
+        }
+
         return courses.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
@@ -183,17 +199,9 @@ public class SearchService {
                 .id(course.getId())
                 .name(course.getCourseName())
                 .price(course.getPrice())
-//                .groups(course.getGroups() != null
-//                        ? course.getGroups().stream().map(this::convertToGroupDto).collect(Collectors.toList())
-//                        : new ArrayList<>())
                 .build();
     }
-    private GroupDTO convertToGroupDto(Group group) {
-        return GroupDTO.builder()
-                .id(group.getId())
-                .groupName(group.getGroupName())
-                .build();
-    }
+
 
 
 }

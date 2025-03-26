@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.entity.Course;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.CourseDTO;
+import uz.pdp.lcsystem.payload.SearchGroupDTO;
 import uz.pdp.lcsystem.service.CourseService;
 import uz.pdp.lcsystem.service.SearchService;
 
@@ -30,6 +31,11 @@ public class CourseController {
         List<CourseDTO> result = searchService.searchCourse(name);
         return ApiResult.success(result);
     }
+  /*  @GetMapping("/search")
+    public ApiResult<List<SearchGroupDTO>> searchGroups(@RequestParam String name) {
+        List<SearchGroupDTO> result = searchService.searchGroup(name);
+        return ApiResult.success(result);
+    }*/
     @GetMapping("/{id}")
     public ApiResult<CourseDTO> getCourseById(@PathVariable Long id) {
         CourseDTO courseById = courseService.getCourseById(id);
