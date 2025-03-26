@@ -1,6 +1,7 @@
 package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.GroupStudentsDto;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequestMapping("/get")
 @RequiredArgsConstructor
 public class GroupStudentsController {
+
     private final GroupStudentsService groupStudentsService;
 
     @GetMapping

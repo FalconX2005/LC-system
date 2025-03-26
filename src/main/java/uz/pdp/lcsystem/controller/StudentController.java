@@ -2,9 +2,10 @@ package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
-import uz.pdp.lcsystem.payload.StudentDto;
+import uz.pdp.lcsystem.payload.StudentDTO;
 import uz.pdp.lcsystem.service.StudentService;
 
 import java.util.List;
@@ -16,31 +17,31 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    public ApiResult<List<StudentDto>> getStudents() {
-        List<StudentDto> all = studentService.getAll();
+    public ApiResult<List<StudentDTO>> getStudents() {
+        List<StudentDTO> all = studentService.getAll();
         return ApiResult.success(all);
     }
 
     @GetMapping("/{id}")
-    public ApiResult<StudentDto> getById(@PathVariable Long id) {
-        StudentDto byId = studentService.getById(id);
+    public ApiResult<StudentDTO> getById(@PathVariable Long id) {
+        StudentDTO byId = studentService.getById(id);
         return ApiResult.success(byId);
     }
 
     @PostMapping("/create")
-    public ApiResult<StudentDto> create(@RequestBody StudentDto studentDto) {
-        StudentDto result = studentService.create(studentDto);
+    public ApiResult<StudentDTO> create(@RequestBody StudentDTO studentDto) {
+        StudentDTO result = studentService.create(studentDto);
         return ApiResult.success(result);
     }
     @PutMapping("/update/{id}")
-    public ApiResult<StudentDto> update(@PathVariable Long id, @RequestBody StudentDto studentDto) {
-        StudentDto result = studentService.update(id, studentDto);
+    public ApiResult<StudentDTO> update(@PathVariable Long id, @RequestBody StudentDTO studentDto) {
+        StudentDTO result = studentService.update(id, studentDto);
         return ApiResult.success(result);
     }
 
     @DeleteMapping("/{id}")
-    public ApiResult<StudentDto> delete(@PathVariable Long id) {
-        StudentDto result = studentService.delete(id);
+    public ApiResult<StudentDTO> delete(@PathVariable Long id) {
+        StudentDTO result = studentService.delete(id);
         return ApiResult.success(result);
     }
 

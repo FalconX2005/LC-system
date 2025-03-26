@@ -5,14 +5,11 @@ import uz.pdp.lcsystem.entity.Room;
 
 import java.io.Serializable;
 
-/**
- * DTO for {@link Room}
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class RoomDto implements Serializable {
+public class RoomDTO implements Serializable {
     Long id;
     String name;
     Integer capacity;

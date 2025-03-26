@@ -6,4 +6,5 @@ import uz.pdp.lcsystem.entity.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
 }

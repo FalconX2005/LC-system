@@ -19,8 +19,7 @@ import uz.pdp.lcsystem.service.AttachmentService;
 @RequiredArgsConstructor
 public class AttachmentController {
 
-    @Autowired
-    private AttachmentService attachmentService;
+    private final AttachmentService attachmentService;
 
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

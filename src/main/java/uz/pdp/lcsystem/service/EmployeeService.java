@@ -36,7 +36,7 @@ public class EmployeeService {
         for (Employee employee : employees) {
             if (!employee.isDeleted()) {
                 UserDTO userDTO = UserDTO.builder().
-                        role(employee.getUser().getRoleEnum()).
+                        roleEnum(employee.getUser().getRoleEnum()).
                         build();
 
                 EmployeeDTO empDTO = EmployeeDTO.builder().
@@ -62,7 +62,7 @@ public class EmployeeService {
 
             User user = byId.get();
             UserDTO userDTO = UserDTO.builder().
-                    role(user.getRoleEnum()).
+                    roleEnum(user.getRoleEnum()).
                     email(user.getEmail()).
                     username(user.getUsername()).
                     build();
@@ -102,7 +102,7 @@ public class EmployeeService {
         user.setEmail(employeeDTO.getUser().getEmail());
         user.setPassword(employeeDTO.getUser().getPassword());
         user.setUsername(employeeDTO.getUser().getUsername());
-        user.setRoleEnum(employeeDTO.getUser().getRole());
+        user.setRoleEnum(employeeDTO.getUser().getRoleEnum());
         userRepository.save(user);
         employee.setUser(user);
 
@@ -119,7 +119,7 @@ public class EmployeeService {
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .role(user.getRoleEnum())
+                .roleEnum(user.getRoleEnum())
                 .build();
 
 
@@ -154,7 +154,7 @@ public class EmployeeService {
         user.setEmail(employeeDTO.getUser().getEmail());
         user.setPassword(employeeDTO.getUser().getPassword());
         user.setUsername(employeeDTO.getUser().getUsername());
-        user.setRoleEnum(employeeDTO.getUser().getRole());
+        user.setRoleEnum(employeeDTO.getUser().getRoleEnum());
         userRepository.save(user);
 
         if (employeeDTO.getAttachmentId() != null) {
@@ -169,7 +169,7 @@ public class EmployeeService {
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .role(user.getRoleEnum())
+                .roleEnum(user.getRoleEnum())
                 .build();
 
         if (!employee.isDeleted()) {

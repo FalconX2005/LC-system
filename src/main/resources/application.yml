@@ -1,3 +1,5 @@
+
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/lc_system
@@ -11,3 +13,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+app:
+  files:
+    baseFolder: /files
+
