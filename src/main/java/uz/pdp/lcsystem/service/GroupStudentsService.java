@@ -6,7 +6,7 @@ import uz.pdp.lcsystem.entity.Group;
 import uz.pdp.lcsystem.entity.GroupStudents;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.exception.RestException;
-import uz.pdp.lcsystem.payload.GroupStudentsDto;
+import uz.pdp.lcsystem.payload.GroupStudentsDTO;
 import uz.pdp.lcsystem.repository.GroupRepository;
 import uz.pdp.lcsystem.repository.GroupStudentsRepository;
 import uz.pdp.lcsystem.repository.StudentRepository;
@@ -22,11 +22,11 @@ public class GroupStudentsService {
     private final StudentRepository studentRepository;
     private final GroupRepository groupRepository;
 
-    public List<GroupStudentsDto> getAll(){
+    public List<GroupStudentsDTO> getAll(){
         List<GroupStudents> all = groupStudentsRepository.findAll();
-        List<GroupStudentsDto> result = new ArrayList<>();
+        List<GroupStudentsDTO> result = new ArrayList<>();
         for (GroupStudents groupStudents : all) {
-            GroupStudentsDto build = GroupStudentsDto.builder()
+            GroupStudentsDTO build = GroupStudentsDTO.builder()
                     .id(groupStudents.getId())
                     .groupId(groupStudents.getGroup().getId())
                     .studentId(groupStudents.getStudent().getId())
@@ -39,10 +39,10 @@ public class GroupStudentsService {
 
         throw RestException.error("Group or student not found");
     }
-    public GroupStudentsDto getById(Long id) {
+    public GroupStudentsDTO getById(Long id) {
         Optional<GroupStudents> byId = groupStudentsRepository.findById(id);
         if (byId.isPresent()) {
-            GroupStudentsDto result = GroupStudentsDto.builder()
+            GroupStudentsDTO result = GroupStudentsDTO.builder()
                     .id(byId.get().getId())
                     .groupId(byId.get().getGroup().getId())
                     .studentId(byId.get().getStudent().getId())
@@ -51,7 +51,7 @@ public class GroupStudentsService {
         }
         throw RestException.error("Group or student not found");
     }
-    public GroupStudentsDto assignStudentToGroup(GroupStudentsDto groupStudentsDto) {
+    public GroupStudentsDTO assignStudentToGroup(GroupStudentsDTO groupStudentsDto) {
         GroupStudents groupStudents = new GroupStudents();
         Optional<Group> byId = groupRepository.findById(groupStudentsDto.getGroupId());
         if (byId.isPresent()) {
@@ -71,7 +71,7 @@ public class GroupStudentsService {
         return groupStudentsDto;
     }
 
-    public GroupStudentsDto update (GroupStudentsDto groupStudentsDto) {
+    public GroupStudentsDTO update (GroupStudentsDTO groupStudentsDto) {
         Optional<GroupStudents> byId = groupStudentsRepository.findById(groupStudentsDto.getId());
         if (byId.isPresent()) {
             GroupStudents groupStudents = byId.get();
@@ -83,12 +83,12 @@ public class GroupStudentsService {
         throw RestException.error("Group not found");
     }
 
-    public GroupStudentsDto delete(Long id ){
+    public GroupStudentsDTO delete(Long id ){
         Optional<GroupStudents> byId = groupStudentsRepository.findById(id);
         if (byId.isPresent()) {
             GroupStudents groupStudents = byId.get();
             groupStudentsRepository.delete(groupStudents);
-            return GroupStudentsDto.builder()
+            return GroupStudentsDTO.builder()
                     .id(id)
                     .groupId(groupStudents.getGroup().getId())
                     .studentId(groupStudents.getStudent().getId())
