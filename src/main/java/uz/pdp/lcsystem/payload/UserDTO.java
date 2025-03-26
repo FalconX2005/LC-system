@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-public class UserDto implements Serializable {
+public class UserDTO implements Serializable {
     Long id;
     String username;
     String password;

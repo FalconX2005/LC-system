@@ -18,16 +18,29 @@ import java.util.List;
 
 public class GroupDTO {
     private Long id;
+
     private String name;
+
     private Long courseId;
+
     private Long employeeId;
+
+    private List<StudentDTO> students;
+
     private Long roomId;
+
     private Long stNumber;
+
     private Days   days;
+
     private Timestamp startTime;
+
     private Timestamp endTime;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
+
     private Status  status;
 
 }

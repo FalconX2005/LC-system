@@ -6,6 +6,7 @@ import org.hibernate.annotations.SQLDelete;
 import uz.pdp.lcsystem.entity.attendences.TeacherAttendance;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
 import uz.pdp.lcsystem.enums.Gender;
+import uz.pdp.lcsystem.enums.RoleEnum;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,8 +25,6 @@ public class Employee  extends AbsLongEntity {
 
     private String lastName;
 
-    private String fullName;
-
     private LocalDate birthDate;
 
     private String phoneNumber;
@@ -37,11 +36,22 @@ public class Employee  extends AbsLongEntity {
     @OneToMany(mappedBy = "employee")
     private List<EmployeeGroup> groups;
 
+
+
+    //    @OneToMany(mappedBy = "employee")
+//    private List<Group> groups;
+
     private Long salary;
+
     @OneToOne
     private User user;
 
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "employee")
+    @ToString.Exclude
     private List<TeacherAttendance> attendances;
+
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "attachment_id")
+    private Attachment attachment;
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.entity.User;
 import uz.pdp.lcsystem.exception.RestException;
-import uz.pdp.lcsystem.payload.StudentDto;
+import uz.pdp.lcsystem.payload.StudentDTO;
 import uz.pdp.lcsystem.repository.GroupStudentsRepository;
 import uz.pdp.lcsystem.repository.StudentAttendanceRepository;
 import uz.pdp.lcsystem.repository.StudentRepository;
@@ -34,14 +34,14 @@ public class StudentService {
     private final UserRepository userRepository;
 
 
-    public List<StudentDto> getAll() {
+    public List<StudentDTO> getAll() {
         List<Student> students = studentRepository.findAll();
 
-        List<StudentDto> result = new ArrayList<StudentDto>();
+        List<StudentDTO> result = new ArrayList<StudentDTO>();
 
         for (Student student : students) {
 
-            StudentDto build = StudentDto.builder()
+            StudentDTO build = StudentDTO.builder()
                     .id(student.getId()).
                     firstName(student.getFirstName())
                     .lastName(student.getLastName())
@@ -59,14 +59,14 @@ public class StudentService {
     }
 
 
-    public StudentDto getById(@PathVariable Long id) {
+    public StudentDTO getById(@PathVariable Long id) {
 
 
         Optional<Student> byId = studentRepository.findById(id);
 
         if (byId.isPresent()) {
             Student student = byId.get();
-            StudentDto build = StudentDto.builder()
+            StudentDTO build = StudentDTO.builder()
                     .gender(student.getGender())
                     .firstName(student.getFirstName())
                     .lastName(student.getLastName())
@@ -84,7 +84,7 @@ public class StudentService {
 
 
     @Transactional
-    public StudentDto create(@RequestBody StudentDto studentDto) {
+    public StudentDTO create(@RequestBody StudentDTO studentDto) {
 
         User build = User.builder()
                 .username(studentDto.getUsername())
@@ -106,7 +106,7 @@ public class StudentService {
     }
 
     @Transactional
-    public StudentDto update(@PathVariable Long id, @RequestBody StudentDto studentDto) {
+    public StudentDTO update(@PathVariable Long id, @RequestBody StudentDTO studentDto) {
         Optional<User> findByUsername = userRepository.findByUsername(studentDto.getUsername());
         if (findByUsername.isPresent()) {
             User byUsername = findByUsername.get();
@@ -136,7 +136,7 @@ public class StudentService {
     }
 
     @Transactional
-    public StudentDto delete(@PathVariable Long id) {
+    public StudentDTO delete(@PathVariable Long id) {
 
         Optional<Student> byId = studentRepository.findById(id);
         if (byId.isPresent()) {
@@ -145,7 +145,7 @@ public class StudentService {
             studentRepository.delete(student);
 
 
-            StudentDto result = StudentDto.builder()
+            StudentDTO result = StudentDTO.builder()
                     .id(student.getId())
                     .firstName(student.getFirstName())
                     .lastName(student.getLastName())

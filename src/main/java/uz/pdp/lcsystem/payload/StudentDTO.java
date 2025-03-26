@@ -1,9 +1,7 @@
 package uz.pdp.lcsystem.payload;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.enums.Gender;
 import uz.pdp.lcsystem.enums.RoleEnum;
@@ -11,14 +9,12 @@ import uz.pdp.lcsystem.enums.RoleEnum;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * DTO for {@link Student}
- */
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class StudentDto implements Serializable {
+public class StudentDTO implements Serializable {
 
     private Long id;
 
