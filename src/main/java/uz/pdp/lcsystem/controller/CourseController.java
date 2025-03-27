@@ -31,11 +31,7 @@ public class CourseController {
         List<CourseDTO> result = searchService.searchCourse(name);
         return ApiResult.success(result);
     }
-  /*  @GetMapping("/search")
-    public ApiResult<List<SearchGroupDTO>> searchGroups(@RequestParam String name) {
-        List<SearchGroupDTO> result = searchService.searchGroup(name);
-        return ApiResult.success(result);
-    }*/
+
     @GetMapping("/{id}")
     public ApiResult<CourseDTO> getCourseById(@PathVariable Long id) {
         CourseDTO courseById = courseService.getCourseById(id);

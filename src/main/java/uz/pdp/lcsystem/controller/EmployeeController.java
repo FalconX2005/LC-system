@@ -49,6 +49,8 @@ public class EmployeeController {
     @PostMapping("/update/{id}")
     public ApiResult<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
         return employeeService.update(employeeDTO);
+    }
+
     @GetMapping("/search")
     public ApiResult<List<EmployeeDTO>> searchEmployees(@RequestParam String name) {
         List<EmployeeDTO> result = searchService.searchEmployee(name);
@@ -61,3 +63,4 @@ public class EmployeeController {
         return employeeService.delete(id);
     }
 
+}
