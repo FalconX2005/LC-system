@@ -14,7 +14,9 @@ public class GroupStudentsDTO {
     private Long id;
 
     private Long groupId;
+    private String groupName;
 
     private Long studentId;
+    private String studentName;
 
 }

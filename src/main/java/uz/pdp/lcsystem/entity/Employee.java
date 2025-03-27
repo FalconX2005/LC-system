@@ -32,23 +32,15 @@ public class Employee  extends AbsLongEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "employee")
-    private List<EmployeeGroup> groups;
 
 
 
-    //    @OneToMany(mappedBy = "employee")
-//    private List<Group> groups;
 
     private Long salary;
 
     @OneToOne
     private User user;
 
-    @OneToMany(mappedBy = "employee")
-    @ToString.Exclude
-    private List<TeacherAttendance> attendances;
 
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

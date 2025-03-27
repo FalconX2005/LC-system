@@ -31,13 +31,15 @@ public class CourseService {
             throw RestException.error("No courses found");
         }
         for (Course course : all) {
-            CourseDTO build = CourseDTO.builder()
-                    .id(course.getId())
-                    .name(course.getCourseName())
-                    .price(course.getPrice())
-                    .build();
+            if (!course.isDeleted()) {
+                CourseDTO build = CourseDTO.builder()
+                        .id(course.getId())
+                        .name(course.getCourseName())
+                        .price(course.getPrice())
+                        .build();
 
-            courseDTOList.add(build);
+                courseDTOList.add(build);
+            }
         }
         return courseDTOList;
     }
@@ -62,7 +64,8 @@ public class CourseService {
                 .courseName(courseDTO.getName())
                 .price(courseDTO.getPrice())
                 .build();
-        courseRepository.save(build);
+        Course save = courseRepository.save(build);
+        courseDTO.setId(save.getId());
         return courseDTO;
     }
 

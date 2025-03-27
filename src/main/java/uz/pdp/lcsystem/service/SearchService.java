@@ -129,7 +129,6 @@ public class SearchService {
                 .phoneNumber(employee.getPhoneNumber())
                 .gender(employee.getGender())
                 .salary(employee.getSalary())
-                .userId((int) employee.getUser().getId().longValue())
 
                 .build();
     }

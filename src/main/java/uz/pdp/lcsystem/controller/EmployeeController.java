@@ -46,7 +46,7 @@ public class EmployeeController {
 
     private final SearchService searchService;
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ApiResult<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
         return employeeService.update(employeeDTO);
     }

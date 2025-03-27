@@ -24,6 +24,5 @@ public class Course extends AbsLongEntity {
 
     private Long price;
 
-    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Group> groups;
+
 }

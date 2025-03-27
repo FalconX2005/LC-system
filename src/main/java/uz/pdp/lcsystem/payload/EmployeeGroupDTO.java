@@ -19,6 +19,8 @@ public class EmployeeGroupDTO {
     private Long id;
 
     private Long groupId;
+    private String groupName;
 
     private Long employeeId;
+    private String employeeName;
 }

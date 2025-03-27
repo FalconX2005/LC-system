@@ -1,5 +1,6 @@
 package uz.pdp.lcsystem.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import uz.pdp.lcsystem.entity.Student;
@@ -27,11 +28,9 @@ public class StudentDTO implements Serializable {
 
     private String password;
     private String email;
-    private RoleEnum role;
+    @JsonIgnore
+    private RoleEnum role=RoleEnum.STUDENT;
 
 
 
-//    private Long userId;
-
-//    private List<StudentAttendanceDTO> attendances;
 }

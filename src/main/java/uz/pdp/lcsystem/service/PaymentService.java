@@ -24,7 +24,6 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final StudentRepository studentRepository;
     private final GroupRepository groupRepository;
-    private final GroupStudentsRepository groupStudentsRepository;
 
     public List<PaymentDTO> getPayments() {
         List<Payment> payments = paymentRepository.findAll();
@@ -74,7 +73,7 @@ public class PaymentService {
 
         paymentDate1.setPaid(true);
 
-        paymentRepository.save(paymentDate1);
+         paymentRepository.save(paymentDate1);
 
         PaymentDTO result = PaymentDTO.builder()
                 .paid(paymentDate1.isPaid())
@@ -111,7 +110,8 @@ public class PaymentService {
         else {
             throw RestException.error("Student not found");
         }
-        paymentRepository.save(build);
+        Payment save = paymentRepository.save(build);
+        paymentDTO.setId(save.getId());
         return paymentDTO;
     }
 }

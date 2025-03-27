@@ -25,19 +25,14 @@ public class Student extends AbsLongEntity {
 
     private String phoneNumber;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
-    private List<GroupStudents> groupStudents;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private User user;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "student")
-    private List<StudentAttendance> attendances;
+
 
 
 

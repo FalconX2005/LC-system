@@ -64,7 +64,8 @@ public class GroupStudentsService {
         if (byStudentId.isPresent()) {
             Student student = byStudentId.get();
             groupStudents.setStudent(student);
-            groupStudentsRepository.save(groupStudents);
+            GroupStudents save = groupStudentsRepository.save(groupStudents);
+            groupStudentsDto.setId(save.getId());
         }else {
             throw RestException.error("Student not found");
         }
@@ -77,7 +78,8 @@ public class GroupStudentsService {
             GroupStudents groupStudents = byId.get();
             groupRepository.findById(groupStudentsDto.getGroupId()).ifPresent(group -> {groupStudents.setGroup(group);});
             studentRepository.findById(groupStudentsDto.getStudentId()).ifPresent(student -> {groupStudents.setStudent(student);});
-            groupStudentsRepository.save(groupStudents);
+            GroupStudents save = groupStudentsRepository.save(groupStudents);
+            groupStudentsDto.setId(save.getId());
             return groupStudentsDto;
         }
         throw RestException.error("Group not found");
