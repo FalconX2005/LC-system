@@ -29,7 +29,7 @@ public class StudentAttendanceController {
     //bitta groupning ichidagi studentlarini yo'qlama qilish uchun yozilgan !!!
     // Kirib kelgan id bu groupning id si.
     @GetMapping("/{id}")
-    public ApiResult<List<StudentAttendanceDTO>> getAttendanceByGroupId(@PathVariable Long groupId){
+    public ApiResult<List<StudentAttendanceDTO>> getAttendanceByGroupId(@RequestParam Long groupId){
         List<StudentAttendanceDTO> result = studentAttendanceService.getAttendancesByGroup(groupId);
         return ApiResult.success(result);
     }

@@ -30,6 +30,8 @@ public class EmployeeGroupService {
                     .id(employeeGroup.getId())
                     .employeeId(employeeGroup.getEmployee().getId())
                     .groupId(employeeGroup.getGroup().getId())
+                    .employeeName(employeeGroup.getEmployee().getFirstName())
+                    .groupName(employeeGroup.getGroup().getGroupName())
                     .build();
             result.add(dto);
         }
@@ -46,6 +48,8 @@ public class EmployeeGroupService {
                 .id(employeeGroup.getId())
                 .employeeId(employeeGroup.getEmployee().getId())
                 .groupId(employeeGroup.getGroup().getId())
+                .employeeName(employeeGroup.getEmployee().getFirstName())
+                .groupName(employeeGroup.getGroup().getGroupName())
                 .build();
     }
 

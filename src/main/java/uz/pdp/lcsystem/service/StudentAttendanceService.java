@@ -35,6 +35,7 @@ public class StudentAttendanceService {
                     .studentName(attendance.getStudent().getFirstName())
                     .studentId(attendance.getStudent().getId())
                     .status(attendance.isStatus())
+                    .id(attendance.getId())
                     .build();
             resultList.add(build);
         }
@@ -48,6 +49,7 @@ public class StudentAttendanceService {
     public List<StudentAttendanceDTO> getAttendancesByGroup(Long groupId) {
         List<StudentAttendance> byGroupId = studentAttendanceRepository.findByGroupId(groupId);
         List<StudentAttendanceDTO> resultList = new ArrayList<>();
+
         for (StudentAttendance attendance : byGroupId) {
             StudentAttendanceDTO build = StudentAttendanceDTO.builder()
                     .attendanceDate(attendance.getAttendanceDate())
@@ -55,6 +57,7 @@ public class StudentAttendanceService {
                     .studentName(attendance.getStudent().getFirstName())
                     .studentId(attendance.getStudent().getId())
                     .status(attendance.isStatus())
+                    .id(attendance.getId())
                     .build();
             resultList.add(build);
         }
