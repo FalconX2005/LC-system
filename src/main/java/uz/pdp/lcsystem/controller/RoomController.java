@@ -1,6 +1,7 @@
 package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.RoomDTO;
@@ -22,23 +23,27 @@ public class RoomController {
 
     private final RoomService roomService;
 
+    @Secured({"ADMIN","MANAGER"})
     @GetMapping
     public ApiResult<List<RoomDTO>> getAllEmployees() {
         List<RoomDTO> all = roomService.getAll();
         return ApiResult.success(all);
     }
 
+    @Secured({"ADMIN","MANAGER"})
     @GetMapping("/{id}")
     public ApiResult<RoomDTO> getEmployeeById(@PathVariable Long id) {
         RoomDTO byId = roomService.getById(id);
         return ApiResult.success(byId);
     }
+    @Secured({"ADMIN"})
     @PostMapping("/create")
     public ApiResult<RoomDTO> createRoom(@RequestBody RoomDTO roomDto) {
         RoomDTO roomDto1 = roomService.create(roomDto);
         return ApiResult.success(roomDto1);
     }
 
+    @Secured({"ADMIN"})
     @PutMapping("/update")
     public ApiResult<RoomDTO> update(@RequestBody RoomDTO roomDto){
 
@@ -46,6 +51,7 @@ public class RoomController {
         return ApiResult.success(roomDto1);
     }
 
+    @Secured({"ADMIN"})
     @DeleteMapping("/{id}")
     public ApiResult<RoomDTO> delete(@PathVariable Long id) {
         RoomDTO roomDto = roomService.delete(id);

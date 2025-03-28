@@ -23,39 +23,42 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StudentService {
 
-    @Autowired
-    private final GroupStudentsRepository groupStudentsRepository;
 
-    @Autowired
     private final StudentRepository studentRepository;
-    @Autowired
+
     private final StudentAttendanceRepository studentAttendanceRepository;
-    @Autowired
+
     private final UserRepository userRepository;
 
 
     public List<StudentDTO> getAll() {
         List<Student> students = studentRepository.findAll();
 
-        List<StudentDTO> result = new ArrayList<StudentDTO>();
+        List<StudentDTO> result = new ArrayList<>();
 
         for (Student student : students) {
 
-            StudentDTO build = StudentDTO.builder()
-                    .id(student.getId()).
-                    firstName(student.getFirstName())
-                    .lastName(student.getLastName())
-                    .username(student.getUser().getUsername())
-                    .email(student.getUser().getEmail())
-                    .role(student.getUser().getRoleEnum())
-                    .gender(student.getGender())
-                    .phoneNumber(student.getPhoneNumber())
-//                    .attendances(student.getAttendances())
+            if(!student.isDeleted()) {
+                StudentDTO build = StudentDTO.builder()
+                        .id(student.getId()).
+                        firstName(student.getFirstName())
+                        .lastName(student.getLastName())
+                        .username(student.getUser().getUsername())
+                        .email(student.getUser().getEmail())
+                        .role(student.getUser().getRoleEnum())
+                        .gender(student.getGender())
+                        .phoneNumber(student.getPhoneNumber())
+                        .build();
+                result.add(build);
+            }
 
-                    .build();
-            result.add(build);
         }
-        return result;
+
+        if(result.isEmpty()) {
+            throw RestException.error("List is empty");
+        }else {
+            return result;
+        }
     }
 
 
@@ -75,7 +78,6 @@ public class StudentService {
                     .email(student.getUser().getEmail())
                     .role(student.getUser().getRoleEnum())
                     .phoneNumber(student.getPhoneNumber())
-//                    .attendances(student.getAttendances())
                     .build();
             return build;
         }
@@ -101,7 +103,8 @@ public class StudentService {
                 .build();
 
         userRepository.save(build);
-        studentRepository.save(result);
+        Student save = studentRepository.save(result);
+        studentDto.setId(save.getId());
         return studentDto;
     }
 
@@ -126,7 +129,8 @@ public class StudentService {
                 student.setUser(byUsername);
                 student.setPhoneNumber(studentDto.getPhoneNumber());
                 userRepository.save(byUsername);
-                studentRepository.save(student);
+                Student save = studentRepository.save(student);
+                studentDto.setId(save.getId());
                 return studentDto;
             }
             throw RestException.error("Student not found");
@@ -152,7 +156,6 @@ public class StudentService {
                     .gender(student.getGender())
                     .username(student.getUser().getUsername())
                     .email(student.getUser().getEmail())
-                    .role(student.getUser().getRoleEnum())
                     .phoneNumber(student.getPhoneNumber())
                     .build();
             return result;

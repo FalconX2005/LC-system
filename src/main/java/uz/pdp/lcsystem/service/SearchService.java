@@ -82,9 +82,6 @@ public class SearchService {
                 .id(group.getId())
                 .name(group.getGroupName())
                 .courseId(group.getCourse() != null ? group.getCourse().getId() : null)
-                .employeeId(group.getGroups() != null && !group.getGroups().isEmpty()
-                        ? group.getGroups().get(0).getEmployee().getId()
-                        : null)
                 .roomId(group.getRoom() != null ? group.getRoom().getId() : null)
                 .stNumber(group.getStNumber())
                 .startTime(group.getStartTime())
@@ -129,7 +126,6 @@ public class SearchService {
                 .phoneNumber(employee.getPhoneNumber())
                 .gender(employee.getGender())
                 .salary(employee.getSalary())
-                .userId((int) employee.getUser().getId().longValue())
 
                 .build();
     }

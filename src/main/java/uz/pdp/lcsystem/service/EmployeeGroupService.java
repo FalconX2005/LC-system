@@ -30,6 +30,8 @@ public class EmployeeGroupService {
                     .id(employeeGroup.getId())
                     .employeeId(employeeGroup.getEmployee().getId())
                     .groupId(employeeGroup.getGroup().getId())
+                    .employeeName(employeeGroup.getEmployee().getFirstName())
+                    .groupName(employeeGroup.getGroup().getGroupName())
                     .build();
             result.add(dto);
         }
@@ -46,6 +48,8 @@ public class EmployeeGroupService {
                 .id(employeeGroup.getId())
                 .employeeId(employeeGroup.getEmployee().getId())
                 .groupId(employeeGroup.getGroup().getId())
+                .employeeName(employeeGroup.getEmployee().getFirstName())
+                .groupName(employeeGroup.getGroup().getGroupName())
                 .build();
     }
 
@@ -58,7 +62,8 @@ public class EmployeeGroupService {
 
         employeeGroup.setGroup(group);
         employeeGroup.setEmployee(employee);
-        employeeGroupRepository.save(employeeGroup);
+        EmployeeGroup save = employeeGroupRepository.save(employeeGroup);
+        employeeGroupDto.setId(save.getId());
         return employeeGroupDto;
     }
 
@@ -69,7 +74,8 @@ public class EmployeeGroupService {
         groupRepository.findById(employeeGroupDto.getGroupId()).ifPresent(employeeGroup::setGroup);
         employeeRepository.findById(employeeGroupDto.getEmployeeId()).ifPresent(employeeGroup::setEmployee);
 
-        employeeGroupRepository.save(employeeGroup);
+        EmployeeGroup save = employeeGroupRepository.save(employeeGroup);
+        employeeGroupDto.setId(save.getId());
         return employeeGroupDto;
     }
 

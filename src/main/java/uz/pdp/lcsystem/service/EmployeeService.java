@@ -57,31 +57,34 @@ public class EmployeeService {
 
     public ApiResult<EmployeeDTO> findById(Long id) {
         Optional<Employee> employeeId = employeeRepository.findById(id);
-        Optional<User> byId = userRepository.findById(id);
-        if (employeeId.isPresent() && byId.isPresent()) {
 
-            User user = byId.get();
-            UserDTO userDTO = UserDTO.builder().
-                    roleEnum(user.getRoleEnum()).
-                    email(user.getEmail()).
-                    username(user.getUsername()).
-                    build();
-
+        if (employeeId.isPresent() ) {
 
             Employee employee = employeeId.get();
-            if (!employee.isDeleted()) {
-                EmployeeDTO employeeDTO = EmployeeDTO.builder().
-                        id(employee.getId()).
-                        firstName(employee.getFirstName()).
-                        lastName(employee.getLastName()).
-                        gender(employee.getGender()).
-                        phoneNumber(employee.getPhoneNumber()).
-                        birthDate(employee.getBirthDate()).
-                        salary(employee.getSalary()).
-                        attachmentId(employee.getAttachment().getId()).
-                        user(userDTO).
+            Optional<User> byId = userRepository.findById(employee.getUser().getId());
+            if(byId.isPresent()) {
+                User user = byId.get();
+                UserDTO userDTO = UserDTO.builder().
+                        roleEnum(user.getRoleEnum()).
+                        email(user.getEmail()).
+                        username(user.getUsername()).
                         build();
-                return ApiResult.success(employeeDTO);
+
+
+                if (!employee.isDeleted()) {
+                    EmployeeDTO employeeDTO = EmployeeDTO.builder().
+                            id(employee.getId()).
+                            firstName(employee.getFirstName()).
+                            lastName(employee.getLastName()).
+                            gender(employee.getGender()).
+                            phoneNumber(employee.getPhoneNumber()).
+                            birthDate(employee.getBirthDate()).
+                            salary(employee.getSalary()).
+                            attachmentId(employee.getAttachment().getId()).
+                            user(userDTO).
+                            build();
+                    return ApiResult.success(employeeDTO);
+                }
             }
         }
 
@@ -103,7 +106,7 @@ public class EmployeeService {
         user.setPassword(employeeDTO.getUser().getPassword());
         user.setUsername(employeeDTO.getUser().getUsername());
         user.setRoleEnum(employeeDTO.getUser().getRoleEnum());
-        userRepository.save(user);
+        User save = userRepository.save(user);
         employee.setUser(user);
 
         if (employeeDTO.getAttachmentId() != null) {
@@ -116,6 +119,7 @@ public class EmployeeService {
         employeeRepository.save(employee);
 
         UserDTO userDTO = UserDTO.builder()
+                .id(save.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .password(user.getPassword())
@@ -155,7 +159,7 @@ public class EmployeeService {
         user.setPassword(employeeDTO.getUser().getPassword());
         user.setUsername(employeeDTO.getUser().getUsername());
         user.setRoleEnum(employeeDTO.getUser().getRoleEnum());
-        userRepository.save(user);
+        User save = userRepository.save(user);
 
         if (employeeDTO.getAttachmentId() != null) {
             Attachment attachmentId = attachmentRepository.findById(employeeDTO.getAttachmentId())
@@ -165,7 +169,10 @@ public class EmployeeService {
         }
 
         employee = employeeRepository.save(employee);
+
+
         UserDTO userDTO = UserDTO.builder()
+                .id(save.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
                 .password(user.getPassword())

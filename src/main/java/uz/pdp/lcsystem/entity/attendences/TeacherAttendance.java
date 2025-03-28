@@ -2,6 +2,8 @@ package uz.pdp.lcsystem.entity.attendences;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 import uz.pdp.lcsystem.entity.Employee;
 import uz.pdp.lcsystem.entity.Group;
@@ -24,9 +26,11 @@ public class TeacherAttendance extends AbsLongEntity {
     @ManyToOne
     private Group group;
 
+
+
     private LocalDate attendanceDate;
 
-    private boolean status;
 
+    private boolean status;
 
 }

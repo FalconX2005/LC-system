@@ -28,15 +28,19 @@ public class RoomService {
             throw RestException.error("Room not found");
         }
         for (Room room : all) {
-            RoomDTO build = RoomDTO.builder()
-                    .id(room.getId())
-                    .capacity(room.getCapacity())
-                    .name(room.getName())
-                    .countOfChair(room.getCountOfChair())
-                    .countOfTable(room.getCountOfTable())
-                    .build();
-            roomDtoList.add(build);
+          if (!room.isDeleted()) {
+              RoomDTO build = RoomDTO.builder()
+                      .id(room.getId())
+                      .capacity(room.getCapacity())
+                      .name(room.getName())
+                      .countOfChair(room.getCountOfChair())
+                      .countOfTable(room.getCountOfTable())
+                      .build();
+              roomDtoList.add(build);
+          }
         }
+
+
         return roomDtoList;
     }
 
