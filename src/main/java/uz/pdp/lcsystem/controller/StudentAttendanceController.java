@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.entity.attendences.StudentAttendance;
 import uz.pdp.lcsystem.payload.ApiResult;
@@ -18,6 +19,7 @@ public class StudentAttendanceController {
 
     private final StudentAttendanceService studentAttendanceService;
 
+    @Secured({"ADMIN","MANAGER","TEACHER"})
     //barcha attendance larni korish uchun yozilgan !!!
     @GetMapping
     public ApiResult<List<StudentAttendanceDTO>> getAttendance(){
@@ -26,6 +28,7 @@ public class StudentAttendanceController {
         return ApiResult.success(attendances);
     }
 
+    @Secured({"ADMIN","MANAGER","TEACHER"})
     //bitta groupning ichidagi studentlarini yo'qlama qilish uchun yozilgan !!!
     // Kirib kelgan id bu groupning id si.
     @GetMapping("/{id}")
@@ -34,6 +37,7 @@ public class StudentAttendanceController {
         return ApiResult.success(result);
     }
 
+    @Secured({"ADMIN","MANAGER","TEACHER"})
     //barcha grouplardagi attendance uchun yozilgan !!!
     @PostMapping("/create")
     public ApiResult<List<StudentAttendanceDTO>> createAttendance(@RequestBody List<StudentAttendanceDTO> studentAttendanceDTOS){

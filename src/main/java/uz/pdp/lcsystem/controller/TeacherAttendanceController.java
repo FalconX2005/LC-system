@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.StudentAttendanceDTO;
@@ -21,7 +22,7 @@ public class TeacherAttendanceController {
 
     private final TeacherAttendanceService teacherAttendanceService;
 
-
+    @Secured({"ADMIN","MANAGER"})
     @GetMapping("/all")
     public ApiResult<List<TeacherAttendanceDTO>> getAllTeacherAttendance() {
 
@@ -29,13 +30,14 @@ public class TeacherAttendanceController {
         return ApiResult.success(attendances);
     }
 
-
+    @Secured({"ADMIN","MANAGER"})
     @GetMapping("/{groupId}")
     public ApiResult<List<TeacherAttendanceDTO>> getTeacherAttendanceByGroupId(@PathVariable Long groupId ) {
         List<TeacherAttendanceDTO> result = teacherAttendanceService.getTeacherAttendanceByGroupId(groupId);
         return ApiResult.success(result);
     }
 
+    @Secured({"ADMIN","MANAGER"})
     @PostMapping("/create")
     public ApiResult<List<TeacherAttendanceDTO>> createTeacherAttendance(@RequestBody List<TeacherAttendanceDTO> teacherAttendanceDTOs) {
         List<TeacherAttendanceDTO> teacherAttendance = teacherAttendanceService.createTeacherAttendance(teacherAttendanceDTOs);
