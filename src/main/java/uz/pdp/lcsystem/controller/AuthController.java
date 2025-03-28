@@ -1,4 +1,4 @@
-package uz.pdp.lcsystem.contoller;
+package uz.pdp.lcsystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
