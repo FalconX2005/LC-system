@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.entity.attendences;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import uz.pdp.lcsystem.entity.Group;
 import uz.pdp.lcsystem.entity.Student;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 @ToString
 @Builder
 public class StudentAttendance extends AbsLongEntity {
+
     @ManyToOne
     private Student student;
 

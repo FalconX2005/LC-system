@@ -1,6 +1,7 @@
 package uz.pdp.lcsystem.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import uz.pdp.lcsystem.entity.attendences.TeacherAttendance;
@@ -21,27 +22,28 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE employee SET deleted = true WHERE id = ?")
 public class Employee  extends AbsLongEntity {
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
+
+    @Column(nullable = false)
     private LocalDate birthDate;
+
 
     private String phoneNumber;
 
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
-
-
 
 
     private Long salary;
 
     @OneToOne
     private User user;
-
-
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "attachment_id")

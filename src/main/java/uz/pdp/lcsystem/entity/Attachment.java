@@ -3,6 +3,7 @@ package uz.pdp.lcsystem.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
@@ -21,18 +22,12 @@ import uz.pdp.lcsystem.entity.tempAbs.AbsLongEntity;
 @SQLDelete(sql = "UPDATE attachment SET deleted = true WHERE id = ?")
 public class Attachment extends AbsLongEntity {
 
-
-    @Column(nullable = false, unique = true,columnDefinition = "text")
     private String fileName;
-
 
     @Column(nullable = false)
     private String fileType;
 
-
-    @Column(nullable = false,unique = true,columnDefinition = "text")
     private String filePath;
-
 
     private Long fileSize;
 

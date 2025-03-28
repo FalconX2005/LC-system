@@ -3,6 +3,7 @@ package uz.pdp.lcsystem.entity.tempAbs;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,9 +29,11 @@ public class AbsDateEntity {
     @UpdateTimestamp
     private Timestamp updated;
 
+    @Column(nullable = false)
     private boolean deleted;
 
     @CreatedBy
+
     private String createdBy;
 
     @LastModifiedBy

@@ -15,8 +15,11 @@ import java.sql.Timestamp;
 @Data
 public class ErrorDTO {
 
+
     private Timestamp timestamp;
+
     private String error;
+
     private int status;
 
 }
