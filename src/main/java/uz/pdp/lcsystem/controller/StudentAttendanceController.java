@@ -3,6 +3,7 @@ package uz.pdp.lcsystem.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.entity.attendences.StudentAttendance;
 import uz.pdp.lcsystem.payload.ApiResult;
@@ -18,6 +19,8 @@ public class StudentAttendanceController {
 
 
     private final StudentAttendanceService studentAttendanceService;
+
+
 
     @Secured({"ADMIN","MANAGER","TEACHER"})
     //barcha attendance larni korish uchun yozilgan !!!

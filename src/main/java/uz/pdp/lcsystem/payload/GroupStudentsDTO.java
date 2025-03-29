@@ -20,14 +20,14 @@ public class GroupStudentsDTO {
     @Positive(message = "groupId musbat bulishi kerak!")
     private Long groupId;
 
-    @NotBlank(message = "groupName bush bulishi mumkun emas")
-    private String groupName;
+//    @NotBlank(message = "groupName bush bulishi mumkun emas")
+//    private String groupName;
 
     @NotNull(message = "studentId bush bulishi mumkun emas")
     @Positive(message = "studentId musbat bulishi kerak")
     private Long studentId;
 
-    @NotBlank(message = "studentName bush bulishi mumkun emas")
-    private String studentName;
+//    @NotBlank(message = "studentName bush bulishi mumkun emas")
+//    private String studentName;
 
 }
