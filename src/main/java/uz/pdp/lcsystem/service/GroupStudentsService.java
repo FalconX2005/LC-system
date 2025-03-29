@@ -29,8 +29,8 @@ public class GroupStudentsService {
             GroupStudentsDTO build = GroupStudentsDTO.builder()
                     .id(groupStudents.getId())
                     .groupId(groupStudents.getGroup().getId())
-                    .groupName(groupStudents.getGroup().getGroupName())
-                    .studentName(groupStudents.getStudent().getFirstName())
+//                    .groupName(groupStudents.getGroup().getGroupName())
+//                    .studentName(groupStudents.getStudent().getFirstName())
                     .studentId(groupStudents.getStudent().getId())
                     .build();
             result.add(build);
@@ -46,8 +46,8 @@ public class GroupStudentsService {
         if (byId.isPresent()) {
             GroupStudentsDTO result = GroupStudentsDTO.builder()
                     .id(byId.get().getId())
-                    .groupName(byId.get().getGroup().getGroupName())
-                    .studentName(byId.get().getStudent().getFirstName())
+//                    .groupName(byId.get().getGroup().getGroupName())
+//                    .studentName(byId.get().getStudent().getFirstName())
                     .groupId(byId.get().getGroup().getId())
                     .studentId(byId.get().getStudent().getId())
                     .build();

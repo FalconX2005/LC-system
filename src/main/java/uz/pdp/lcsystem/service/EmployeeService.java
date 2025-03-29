@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.lcsystem.entity.Attachment;
 import uz.pdp.lcsystem.entity.Employee;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EmployeeService {
 
+    private final PasswordEncoder passwordEncoder;
     private final EmployeeRepository employeeRepository;
     private final AttachmentRepository attachmentRepository;
     private final UserRepository userRepository;
@@ -103,7 +105,7 @@ public class EmployeeService {
 
         User user = new User();
         user.setEmail(employeeDTO.getUser().getEmail());
-        user.setPassword(employeeDTO.getUser().getPassword());
+        user.setPassword(passwordEncoder.encode(employeeDTO.getUser().getPassword()));
         user.setUsername(employeeDTO.getUser().getUsername());
         user.setRoleEnum(employeeDTO.getUser().getRoleEnum());
         User save = userRepository.save(user);
