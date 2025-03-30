@@ -1,4 +1,4 @@
-package uz.pdp.lcsystem.payload;
+package uz.pdp.lcsystem.payload.withoutId;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,9 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class GroupStudentsDTO {
+public class GroupStudentsDto {
 
-    private Long id;
 
     @NotNull(message = "groupId bush bulishi kerak emas!")
     @Positive(message = "groupId musbat bulishi kerak!")

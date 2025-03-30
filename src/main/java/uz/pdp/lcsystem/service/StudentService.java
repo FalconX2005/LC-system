@@ -2,6 +2,7 @@ package uz.pdp.lcsystem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,7 @@ import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.entity.User;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.StudentDTO;
+import uz.pdp.lcsystem.payload.withoutId.StudentDto;
 import uz.pdp.lcsystem.repository.GroupStudentsRepository;
 import uz.pdp.lcsystem.repository.StudentAttendanceRepository;
 import uz.pdp.lcsystem.repository.StudentRepository;
@@ -29,6 +31,7 @@ public class StudentService {
     private final StudentAttendanceRepository studentAttendanceRepository;
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public List<StudentDTO> getAll() {
@@ -86,11 +89,11 @@ public class StudentService {
 
 
     @Transactional
-    public StudentDTO create(@RequestBody StudentDTO studentDto) {
+    public StudentDTO create(@RequestBody StudentDto studentDto) {
 
         User build = User.builder()
                 .username(studentDto.getUsername())
-                .password(studentDto.getPassword())
+                .password(passwordEncoder.encode(studentDto.getPassword()))
                 .email(studentDto.getEmail())
                 .roleEnum(studentDto.getRole())
                 .build();
@@ -104,13 +107,24 @@ public class StudentService {
 
         userRepository.save(build);
         Student save = studentRepository.save(result);
-        studentDto.setId(save.getId());
-        return studentDto;
+        StudentDTO build1 = StudentDTO.builder()
+                .id(save.getId())
+                .firstName(save.getFirstName())
+                .lastName(save.getLastName())
+                .gender(save.getGender())
+                .phoneNumber(save.getPhoneNumber())
+                .email(save.getUser().getEmail())
+                .username(save.getUser().getUsername())
+                .build();
+        return build1;
     }
 
     @Transactional
-    public StudentDTO update(@PathVariable Long id, @RequestBody StudentDTO studentDto) {
+    public StudentDTO update(@PathVariable Long id, @RequestBody StudentDto studentDto) {
         Optional<User> findByUsername = userRepository.findByUsername(studentDto.getUsername());
+
+        StudentDTO studentDTO = new StudentDTO();
+
         if (findByUsername.isPresent()) {
             User byUsername = findByUsername.get();
             byUsername.setEmail(studentDto.getEmail());
@@ -130,8 +144,18 @@ public class StudentService {
                 student.setPhoneNumber(studentDto.getPhoneNumber());
                 userRepository.save(byUsername);
                 Student save = studentRepository.save(student);
-                studentDto.setId(save.getId());
-                return studentDto;
+
+
+                studentDTO.setId(save.getId());
+                studentDTO.setFirstName(save.getFirstName());
+                studentDTO.setLastName(save.getLastName());
+                studentDTO.setUsername(save.getUser().getUsername());
+                studentDTO.setPassword(passwordEncoder.encode(save.getUser().getPassword()));
+                studentDTO.setRole(studentDto.getRole());
+                studentDTO.setGender(studentDto.getGender());
+                studentDTO.setEmail(studentDto.getEmail());
+                studentDTO.setPhoneNumber(studentDto.getPhoneNumber());
+                return studentDTO;
             }
             throw RestException.error("Student not found");
         }

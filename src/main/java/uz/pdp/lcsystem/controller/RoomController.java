@@ -5,6 +5,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.RoomDTO;
+import uz.pdp.lcsystem.payload.withoutId.RoomDto;
 import uz.pdp.lcsystem.service.RoomService;
 
 import java.util.List;
@@ -38,16 +39,16 @@ public class RoomController {
     }
     @Secured({"ADMIN"})
     @PostMapping("/create")
-    public ApiResult<RoomDTO> createRoom(@RequestBody RoomDTO roomDto) {
+    public ApiResult<RoomDTO> createRoom(@RequestBody RoomDto roomDto) {
         RoomDTO roomDto1 = roomService.create(roomDto);
         return ApiResult.success(roomDto1);
     }
 
     @Secured({"ADMIN"})
-    @PutMapping("/update")
-    public ApiResult<RoomDTO> update(@RequestBody RoomDTO roomDto){
+    @PutMapping("/update/{id}")
+    public ApiResult<RoomDTO> update(@PathVariable Long id,@RequestBody RoomDto roomDto){
 
-        RoomDTO roomDto1 = roomService.update(roomDto);
+        RoomDTO roomDto1 = roomService.update(id,roomDto);
         return ApiResult.success(roomDto1);
     }
 

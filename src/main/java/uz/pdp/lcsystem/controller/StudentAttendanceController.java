@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.entity.attendences.StudentAttendance;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.StudentAttendanceDTO;
+import uz.pdp.lcsystem.payload.withoutId.StudentAttendanceDto;
 import uz.pdp.lcsystem.service.StudentAttendanceService;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class StudentAttendanceController {
     @Secured({"ADMIN","MANAGER","TEACHER"})
     //barcha grouplardagi attendance uchun yozilgan !!!
     @PostMapping("/create")
-    public ApiResult<List<StudentAttendanceDTO>> createAttendance(@RequestBody List<StudentAttendanceDTO> studentAttendanceDTOS){
+    public ApiResult<List<StudentAttendanceDTO>> createAttendance(@RequestBody List<StudentAttendanceDto> studentAttendanceDTOS){
         List<StudentAttendanceDTO> result = studentAttendanceService.create(studentAttendanceDTOS);
         return ApiResult.success(result);
     }

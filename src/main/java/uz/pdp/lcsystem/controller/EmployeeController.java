@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.EmployeeDTO;
+import uz.pdp.lcsystem.payload.withoutId.EmployeeDto;
 import uz.pdp.lcsystem.service.EmployeeService;
 import uz.pdp.lcsystem.service.SearchService;
 
@@ -25,8 +26,8 @@ import java.util.List;
 public class EmployeeController {
 
     private final SearchService searchService;
-
     private final EmployeeService employeeService;
+
 
 
     @Secured({"ADMIN","MANAGER"})
@@ -43,15 +44,16 @@ public class EmployeeController {
 
     @Secured({"ADMIN"})
     @PostMapping("/create")
-    public ApiResult<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public ApiResult<EmployeeDTO> createEmployee(@RequestBody EmployeeDto employeeDTO) {
         return employeeService.create(employeeDTO);
     }
 
     @Secured({"ADMIN"})
     @PutMapping("/update/{id}")
-    public ApiResult<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.update(employeeDTO);
+    public ApiResult<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDTO) {
+        return employeeService.update(id,employeeDTO);
     }
+
 
     @Secured({"ADMIN","MANAGER"})
     @GetMapping("/search")

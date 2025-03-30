@@ -9,6 +9,7 @@ import uz.pdp.lcsystem.entity.Course;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.CourseDTO;
 import uz.pdp.lcsystem.payload.SearchGroupDTO;
+import uz.pdp.lcsystem.payload.withoutId.CourseDto;
 import uz.pdp.lcsystem.service.CourseService;
 import uz.pdp.lcsystem.service.SearchService;
 
@@ -44,7 +45,7 @@ public class CourseController {
 
     @Secured({"ADMIN","MANAGER"})
     @PostMapping("/create")
-    public ApiResult<CourseDTO> createCourse(@RequestBody CourseDTO courseDTO) {
+    public ApiResult<CourseDTO> createCourse(@RequestBody CourseDto courseDTO) {
         CourseDTO course = courseService.createCourse(courseDTO);
         return ApiResult.success("course created");
     }
@@ -55,7 +56,5 @@ public class CourseController {
         boolean b = courseService.deleteCourseById(id);
         return ApiResult.success("course deleted");
     }
-
-
 }
 

@@ -1,4 +1,4 @@
-package uz.pdp.lcsystem.payload;
+package uz.pdp.lcsystem.payload.withoutId;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,9 +16,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 @Builder
-public class TeacherAttendanceDTO {
+public class TeacherAttendanceDto {
 
-    private Long id;
+
 
     @NotNull(message = "teacherId bush bulishi mumkun emas!")
     private Long teacherId;

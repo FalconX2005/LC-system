@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.FinanceDTO;
 import uz.pdp.lcsystem.payload.PaymentDTO;
+import uz.pdp.lcsystem.payload.withoutId.FinanceDto;
+import uz.pdp.lcsystem.payload.withoutId.PaymentDto;
 import uz.pdp.lcsystem.service.FinanceService;
 import uz.pdp.lcsystem.service.PaymentService;
 
@@ -33,7 +35,7 @@ public class FinanceController {
     @Secured({"ADMIN","MANAGER"})
     @PostMapping("/create")
     @Transactional
-    public ApiResult<FinanceDTO> create(@RequestBody FinanceDTO financeDTO){
+    public ApiResult<FinanceDTO> create(@RequestBody FinanceDto financeDTO){
         FinanceDTO save = financeService.save(financeDTO);
         return ApiResult.success(save);
     }
@@ -68,7 +70,7 @@ public class FinanceController {
 
     @Secured({"ADMIN","MANAGER"})
     @PostMapping("/payment/create")
-    public ApiResult<PaymentDTO> create(@RequestBody PaymentDTO paymentDTO){
+    public ApiResult<PaymentDTO> create(@RequestBody PaymentDto paymentDTO){
         PaymentDTO paymentDTO1 = paymentService.create(paymentDTO);
         return ApiResult.success(paymentDTO1);
     }

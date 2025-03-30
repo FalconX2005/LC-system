@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.StudentAttendanceDTO;
 import uz.pdp.lcsystem.payload.TeacherAttendanceDTO;
+import uz.pdp.lcsystem.payload.withoutId.TeacherAttendanceDto;
 import uz.pdp.lcsystem.service.TeacherAttendanceService;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/attendance/teacher")
+@RequestMapping("/teacherattendance")
 public class TeacherAttendanceController {
 
     private final TeacherAttendanceService teacherAttendanceService;
@@ -39,7 +40,7 @@ public class TeacherAttendanceController {
 
     @Secured({"ADMIN","MANAGER"})
     @PostMapping("/create")
-    public ApiResult<List<TeacherAttendanceDTO>> createTeacherAttendance(@RequestBody List<TeacherAttendanceDTO> teacherAttendanceDTOs) {
+    public ApiResult<List<TeacherAttendanceDTO>> createTeacherAttendance(@RequestBody List<TeacherAttendanceDto> teacherAttendanceDTOs) {
         List<TeacherAttendanceDTO> teacherAttendance = teacherAttendanceService.createTeacherAttendance(teacherAttendanceDTOs);
         return ApiResult.success(teacherAttendance);
     }

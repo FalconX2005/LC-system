@@ -11,6 +11,7 @@ import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.EmployeeDTO;
 import uz.pdp.lcsystem.payload.UserDTO;
+import uz.pdp.lcsystem.payload.withoutId.EmployeeDto;
 import uz.pdp.lcsystem.repository.AttachmentRepository;
 import uz.pdp.lcsystem.repository.EmployeeRepository;
 import uz.pdp.lcsystem.repository.UserRepository;
@@ -94,7 +95,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public ApiResult<EmployeeDTO> create(EmployeeDTO employeeDTO) {
+    public ApiResult<EmployeeDTO> create(EmployeeDto employeeDTO) {
         Employee employee = new Employee();
         employee.setFirstName(employeeDTO.getFirstName());
         employee.setLastName(employeeDTO.getLastName());
@@ -121,10 +122,9 @@ public class EmployeeService {
         employeeRepository.save(employee);
 
         UserDTO userDTO = UserDTO.builder()
-                .id(save.getId())
+                .id(user.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
-                .password(user.getPassword())
                 .roleEnum(user.getRoleEnum())
                 .build();
 
@@ -146,9 +146,9 @@ public class EmployeeService {
 
 
     @Transactional
-    public ApiResult<EmployeeDTO> update(EmployeeDTO employeeDTO) {
-        Employee employee = employeeRepository.findById(employeeDTO.getId())
-                .orElseThrow(() -> RestException.notFound("Employee not found", employeeDTO.getId()));
+    public ApiResult<EmployeeDTO> update(Long id, EmployeeDto employeeDTO) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> RestException.notFound("Employee not found", id));
 
         employee.setFirstName(employeeDTO.getFirstName());
         employee.setLastName(employeeDTO.getLastName());
@@ -158,8 +158,7 @@ public class EmployeeService {
         employee.setSalary(employeeDTO.getSalary());
         User user = new User();
         user.setEmail(employeeDTO.getUser().getEmail());
-        user.setPassword(employeeDTO.getUser().getPassword());
-        user.setUsername(employeeDTO.getUser().getUsername());
+        user.setPassword(passwordEncoder.encode(employeeDTO.getUser().getPassword()));        user.setUsername(employeeDTO.getUser().getUsername());
         user.setRoleEnum(employeeDTO.getUser().getRoleEnum());
         User save = userRepository.save(user);
 
@@ -177,7 +176,6 @@ public class EmployeeService {
                 .id(save.getId())
                 .email(user.getEmail())
                 .username(user.getUsername())
-                .password(user.getPassword())
                 .roleEnum(user.getRoleEnum())
                 .build();
 

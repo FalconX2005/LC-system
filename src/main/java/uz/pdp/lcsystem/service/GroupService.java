@@ -9,6 +9,7 @@ import uz.pdp.lcsystem.entity.Room;
 import uz.pdp.lcsystem.enums.Status;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.GroupDTO;
+import uz.pdp.lcsystem.payload.withoutId.GroupDto;
 import uz.pdp.lcsystem.repository.CourseRepository;
 import uz.pdp.lcsystem.repository.GroupRepository;
 import uz.pdp.lcsystem.repository.RoomRepository;
@@ -43,7 +44,7 @@ public class GroupService {
     }
 
     @Transactional
-    public GroupDTO createGroup(GroupDTO groupDTO) {
+    public GroupDTO createGroup(GroupDto groupDTO) {
         Course course = courseRepository.findById(groupDTO.getCourseId())
                 .orElseThrow(() -> RestException.notFound("Course not found", groupDTO.getCourseId()));
         Room room = roomRepository.findById(groupDTO.getRoomId())
@@ -67,7 +68,7 @@ public class GroupService {
     }
 
     @Transactional
-    public GroupDTO updateGroup(Long id, GroupDTO groupDTO) {
+    public GroupDTO updateGroup(Long id, GroupDto groupDTO) {
         Group group = groupRepository.findById(id)
                 .orElseThrow(() -> RestException.notFound("Group not found", id));
         if (group.isDeleted()) {

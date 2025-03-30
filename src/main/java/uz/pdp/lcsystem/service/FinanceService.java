@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import uz.pdp.lcsystem.entity.Finance;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.FinanceDTO;
+import uz.pdp.lcsystem.payload.withoutId.FinanceDto;
 import uz.pdp.lcsystem.repository.FinanceRepository;
 
 import java.time.LocalDate;
@@ -47,7 +48,7 @@ public class FinanceService {
     }
 
 
-    public FinanceDTO save( FinanceDTO financeDTO) {
+    public FinanceDTO save( FinanceDto financeDTO) {
 
 
         Finance build = Finance.builder()
@@ -59,9 +60,15 @@ public class FinanceService {
                 .receiver(financeDTO.getReceiver())
                 .build();
         Finance save = financeRepository.save(build);
-        financeDTO.setId(save.getId());
-
-        return financeDTO;
+        FinanceDTO build1 = FinanceDTO.builder()
+                .amount(save.getAmount())
+                .category(save.getCategory())
+                .date(save.getDate())
+                .name(save.getName())
+                .paid(save.isPaid())
+                .receiver(save.getReceiver())
+                .build();
+        return build1;
 
     }
 

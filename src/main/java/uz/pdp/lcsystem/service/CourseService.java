@@ -9,6 +9,7 @@ import uz.pdp.lcsystem.entity.Course;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.CourseDTO;
+import uz.pdp.lcsystem.payload.withoutId.CourseDto;
 import uz.pdp.lcsystem.repository.CourseRepository;
 
 import java.util.ArrayList;
@@ -59,14 +60,18 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO createCourse(CourseDTO courseDTO) {
+    public CourseDTO createCourse(CourseDto courseDTO) {
                 Course build = Course.builder()
                 .courseName(courseDTO.getName())
                 .price(courseDTO.getPrice())
                 .build();
         Course save = courseRepository.save(build);
-        courseDTO.setId(save.getId());
-        return courseDTO;
+        CourseDTO built = CourseDTO.builder()
+                .id(save.getId())
+                .price(save.getPrice())
+                .name(save.getCourseName())
+                .build();
+        return built;
     }
 
     @Transactional

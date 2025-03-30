@@ -7,6 +7,7 @@ import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.entity.attendences.StudentAttendance;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.StudentAttendanceDTO;
+import uz.pdp.lcsystem.payload.withoutId.StudentAttendanceDto;
 import uz.pdp.lcsystem.repository.GroupRepository;
 import uz.pdp.lcsystem.repository.StudentAttendanceRepository;
 import uz.pdp.lcsystem.repository.StudentRepository;
@@ -32,7 +33,6 @@ public class StudentAttendanceService {
             StudentAttendanceDTO build = StudentAttendanceDTO.builder()
                     .attendanceDate(attendance.getAttendanceDate())
                     .groupId(attendance.getGroup().getId())
-                    .studentName(attendance.getStudent().getFirstName())
                     .studentId(attendance.getStudent().getId())
                     .status(attendance.isStatus())
                     .id(attendance.getId())
@@ -54,7 +54,6 @@ public class StudentAttendanceService {
             StudentAttendanceDTO build = StudentAttendanceDTO.builder()
                     .attendanceDate(attendance.getAttendanceDate())
                     .groupId(attendance.getGroup().getId())
-                    .studentName(attendance.getStudent().getFirstName())
                     .studentId(attendance.getStudent().getId())
                     .status(attendance.isStatus())
                     .id(attendance.getId())
@@ -66,8 +65,9 @@ public class StudentAttendanceService {
     }
 
 
-    public List<StudentAttendanceDTO> create (List<StudentAttendanceDTO> attendances) {
-        for (StudentAttendanceDTO attendance : attendances) {
+    public List<StudentAttendanceDTO> create (List<StudentAttendanceDto> attendances) {
+       List<StudentAttendanceDTO> resultList = new ArrayList<>();
+        for (StudentAttendanceDto attendance : attendances) {
 
             StudentAttendance build = StudentAttendance.builder()
                     .attendanceDate(attendance.getAttendanceDate())
@@ -89,9 +89,16 @@ public class StudentAttendanceService {
             }else{
                 throw RestException.notFound("Student not found", attendance.getStudentId());
             }
-            studentAttendanceRepository.save(build);
-
+            StudentAttendance save = studentAttendanceRepository.save(build);
+            StudentAttendanceDTO build1 = StudentAttendanceDTO.builder()
+                    .attendanceDate(save.getAttendanceDate())
+                    .groupId(save.getGroup().getId())
+                    .studentId(save.getStudent().getId())
+                    .status(save.isStatus())
+                    .id(save.getId())
+                    .build();
+            resultList.add(build1);
         }
-        return attendances;
+        return resultList;
     }
 }

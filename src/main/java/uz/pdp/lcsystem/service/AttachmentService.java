@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.lcsystem.entity.Attachment;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.AttachmentDTO;
+import uz.pdp.lcsystem.payload.withoutId.AttachmentDto;
 import uz.pdp.lcsystem.repository.AttachmentRepository;
 
 import java.io.IOException;
@@ -38,7 +39,6 @@ public class AttachmentService {
             if (file.isEmpty()) {
                 return ApiResult.error("File is empty");
             }
-
 
             String contentType = file.getContentType();
 
@@ -82,7 +82,9 @@ public class AttachmentService {
             attachment.setFileName(originalFilename);
             attachment.setFilePath(path.toString());
 
-            attachmentRepository.save(attachment);
+            Attachment save = attachmentRepository.save(attachment);
+            attachment.setId(save.getId());
+
 
             return ApiResult.success(new AttachmentDTO(attachment));
         }catch (IOException e) {

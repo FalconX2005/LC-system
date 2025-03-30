@@ -5,6 +5,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.GroupStudentsDTO;
+import uz.pdp.lcsystem.payload.withoutId.GroupStudentsDto;
 import uz.pdp.lcsystem.service.GroupStudentsService;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class GroupStudentsController {
     @Secured({"ADMIN","MANAGER"})
     // studentni guruhga biriktirish uchun yozilgan method
     @PostMapping("/assing-student")
-    public ApiResult<GroupStudentsDTO> assingStudent(@RequestBody GroupStudentsDTO groupStudents) {
+    public ApiResult<GroupStudentsDTO> assingStudent(@RequestBody GroupStudentsDto groupStudents) {
         GroupStudentsDTO groupStudentsDto = groupStudentsService.assignStudentToGroup(groupStudents);
         return ApiResult.success(groupStudentsDto);
     }
@@ -41,8 +42,8 @@ public class GroupStudentsController {
     @Secured({"ADMIN","MANAGER"})
     @PutMapping("/update/{id}")
     public ApiResult<GroupStudentsDTO> update(@PathVariable Long id,
-                                              @RequestBody GroupStudentsDTO groupStudents) {
-        GroupStudentsDTO update = groupStudentsService.update(groupStudents);
+                                              @RequestBody GroupStudentsDto groupStudents) {
+        GroupStudentsDTO update = groupStudentsService.update(id,groupStudents);
         return ApiResult.success(update);
     }
 

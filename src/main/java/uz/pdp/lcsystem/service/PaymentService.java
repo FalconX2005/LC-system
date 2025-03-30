@@ -7,6 +7,7 @@ import uz.pdp.lcsystem.entity.Payment;
 import uz.pdp.lcsystem.entity.Student;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.PaymentDTO;
+import uz.pdp.lcsystem.payload.withoutId.PaymentDto;
 import uz.pdp.lcsystem.repository.GroupRepository;
 import uz.pdp.lcsystem.repository.GroupStudentsRepository;
 import uz.pdp.lcsystem.repository.PaymentRepository;
@@ -86,7 +87,10 @@ public class PaymentService {
         return result;
     }
 
-    public PaymentDTO create(PaymentDTO paymentDTO) {
+    public PaymentDTO create(PaymentDto paymentDTO) {
+
+        PaymentDTO result = new PaymentDTO();
+
         Payment build = Payment.builder()
                 .amount(paymentDTO.getAmount())
                 .paymentDate(paymentDTO.getDate())
@@ -111,7 +115,11 @@ public class PaymentService {
             throw RestException.error("Student not found");
         }
         Payment save = paymentRepository.save(build);
-        paymentDTO.setId(save.getId());
-        return paymentDTO;
+        result.setId(save.getId());
+        result.setAmount(save.getAmount());
+        result.setDate(save.getPaymentDate());
+        result.setGroupId(save.getGroup().getId());
+        result.setStudentId(save.getStudent().getId());
+        return result;
     }
 }

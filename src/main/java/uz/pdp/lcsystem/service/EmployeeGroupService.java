@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import uz.pdp.lcsystem.entity.Employee;
 import uz.pdp.lcsystem.entity.EmployeeGroup;
 import uz.pdp.lcsystem.entity.Group;
+import uz.pdp.lcsystem.enums.RoleEnum;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.EmployeeGroupDTO;
+import uz.pdp.lcsystem.payload.withoutId.EmployeeGroupDto;
 import uz.pdp.lcsystem.repository.EmployeeGroupRepository;
 import uz.pdp.lcsystem.repository.EmployeeRepository;
 import uz.pdp.lcsystem.repository.GroupRepository;
@@ -26,14 +28,14 @@ public class EmployeeGroupService {
         List<EmployeeGroup> all = employeeGroupRepository.findAll();
         List<EmployeeGroupDTO> result = new ArrayList<>();
         for (EmployeeGroup employeeGroup : all) {
-            EmployeeGroupDTO dto = EmployeeGroupDTO.builder()
-                    .id(employeeGroup.getId())
-                    .employeeId(employeeGroup.getEmployee().getId())
-                    .groupId(employeeGroup.getGroup().getId())
-                    .employeeName(employeeGroup.getEmployee().getFirstName())
-                    .groupName(employeeGroup.getGroup().getGroupName())
-                    .build();
-            result.add(dto);
+            if(!employeeGroup.isDeleted()) {
+                EmployeeGroupDTO dto = EmployeeGroupDTO.builder()
+                        .id(employeeGroup.getId())
+                        .employeeId(employeeGroup.getEmployee().getId())
+                        .groupId(employeeGroup.getGroup().getId())
+                        .build();
+                result.add(dto);
+            }
         }
         if (!result.isEmpty()) {
             return result;
@@ -44,39 +46,71 @@ public class EmployeeGroupService {
     public EmployeeGroupDTO getById(Long id) {
         EmployeeGroup employeeGroup = employeeGroupRepository.findById(id)
                 .orElseThrow(() -> RestException.error("Employee or group not found"));
-        return EmployeeGroupDTO.builder()
-                .id(employeeGroup.getId())
-                .employeeId(employeeGroup.getEmployee().getId())
-                .groupId(employeeGroup.getGroup().getId())
-                .employeeName(employeeGroup.getEmployee().getFirstName())
-                .groupName(employeeGroup.getGroup().getGroupName())
-                .build();
+        if(!employeeGroup.isDeleted()) {
+            return EmployeeGroupDTO.builder()
+                    .id(employeeGroup.getId())
+                    .employeeId(employeeGroup.getEmployee().getId())
+                    .groupId(employeeGroup.getGroup().getId())
+                    .build();
+        }
+
+        throw RestException.error("Employee or group not found");
     }
 
-    public EmployeeGroupDTO assignEmployeeToGroup(EmployeeGroupDTO employeeGroupDto) {
+    public EmployeeGroupDTO assignEmployeeToGroup(EmployeeGroupDto employeeGroupDto) {
         EmployeeGroup employeeGroup = new EmployeeGroup();
         Group group = groupRepository.findById(employeeGroupDto.getGroupId())
                 .orElseThrow(() -> RestException.error("Group not found"));
         Employee employee = employeeRepository.findById(employeeGroupDto.getEmployeeId())
                 .orElseThrow(() -> RestException.error("Employee not found"));
 
-        employeeGroup.setGroup(group);
-        employeeGroup.setEmployee(employee);
-        EmployeeGroup save = employeeGroupRepository.save(employeeGroup);
-        employeeGroupDto.setId(save.getId());
-        return employeeGroupDto;
+        if(!employee.isDeleted()) {
+
+            if(employee.getUser().getRoleEnum() != RoleEnum.TEACHER){
+                throw RestException.error("User is not teacher");
+            }
+
+            employeeGroup.setGroup(group);
+            employeeGroup.setEmployee(employee);
+            EmployeeGroup save = employeeGroupRepository.save(employeeGroup);
+            EmployeeGroupDTO build = EmployeeGroupDTO.builder()
+                    .employeeId(employeeGroupDto.getEmployeeId())
+                    .groupId(employeeGroupDto.getGroupId())
+                    .id(save.getId())
+                    .build();
+            return build;
+        }
+
+        throw RestException.error("Teacher was deleted");
     }
 
-    public EmployeeGroupDTO update(EmployeeGroupDTO employeeGroupDto) {
-        EmployeeGroup employeeGroup = employeeGroupRepository.findById(employeeGroupDto.getId())
+    public EmployeeGroupDTO update(Long id,EmployeeGroupDto employeeGroupDto) {
+        EmployeeGroup employeeGroup = employeeGroupRepository.findById(id)
                 .orElseThrow(() -> RestException.error("Employee or group not found"));
 
-        groupRepository.findById(employeeGroupDto.getGroupId()).ifPresent(employeeGroup::setGroup);
-        employeeRepository.findById(employeeGroupDto.getEmployeeId()).ifPresent(employeeGroup::setEmployee);
+        EmployeeGroupDTO employeeGroupDTO = new EmployeeGroupDTO();
 
-        EmployeeGroup save = employeeGroupRepository.save(employeeGroup);
-        employeeGroupDto.setId(save.getId());
-        return employeeGroupDto;
+        if(!employeeGroup.isDeleted()) {
+            
+            groupRepository.findById(employeeGroupDto.getGroupId()).ifPresent(employeeGroup::setGroup);
+            Optional<Employee> employeeOpt = employeeRepository.findById(employeeGroupDto.getEmployeeId());
+            employeeOpt.ifPresent(employeeGroup::setEmployee);
+
+            Employee employee = employeeOpt.get();
+
+            if(employee.getUser().getRoleEnum() != RoleEnum.TEACHER){
+                throw RestException.error("User is not teacher");
+            }
+
+            EmployeeGroup save = employeeGroupRepository.save(employeeGroup);
+            employeeGroup.setId(save.getId());
+            employeeGroupDTO.setId(employeeGroup.getId());
+            employeeGroupDTO.setEmployeeId(employeeGroup.getEmployee().getId());
+            employeeGroupDTO.setGroupId(employeeGroup.getGroup().getId());
+            return employeeGroupDTO;
+        }
+
+        throw RestException.error("Employee or group not found");
     }
 
     public EmployeeGroupDTO delete(Long id) {

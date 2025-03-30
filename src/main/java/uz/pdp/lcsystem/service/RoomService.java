@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.pdp.lcsystem.entity.Room;
 import uz.pdp.lcsystem.exception.RestException;
 import uz.pdp.lcsystem.payload.RoomDTO;
+import uz.pdp.lcsystem.payload.withoutId.RoomDto;
 import uz.pdp.lcsystem.repository.RoomRepository;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class RoomService {
     }
 
     @Transactional
-    public RoomDTO create(RoomDTO roomDto) {
+    public RoomDTO create(RoomDto roomDto) {
         List<Room> byName = roomRepository.findByName(roomDto.getName());
         if (!byName.isEmpty()) {
             throw RestException.error("Room already exists");
@@ -74,16 +75,23 @@ public class RoomService {
                 .name(roomDto.getName())
                 .build();
         roomRepository.save(build);
-        roomDto.setId(build.getId());
-        return roomDto;
+        RoomDTO build1 = RoomDTO.builder()
+                .id(build.getId())
+                .capacity(build.getCapacity())
+                .countOfChair(build.getCountOfChair())
+                .countOfTable(build.getCountOfTable())
+                .name(build.getName())
+                .build();
+        return build1;
 
     }
 
     @Transactional
-    public RoomDTO update(RoomDTO roomDto) {
-        Optional<Room> byId = roomRepository.findById(roomDto.getId());
+    public RoomDTO update(Long id, RoomDto roomDto) {
+        Optional<Room> byId = roomRepository.findById(id);
+        RoomDTO roomDTO = new RoomDTO();
         if (!byId.isPresent()) {
-            throw RestException.notFound("Room not found",roomDto.getId());
+            throw RestException.notFound("Room not found: ",id);
         }
         Room room = byId.get();
         room.setName(roomDto.getName());
@@ -91,8 +99,12 @@ public class RoomService {
         room.setCountOfChair(roomDto.getCountOfChair());
         room.setCountOfTable(roomDto.getCountOfTable());
         Room save = roomRepository.save(room);
-        roomDto.setId(save.getId());
-        return roomDto;
+        roomDTO.setId(save.getId());
+        roomDTO.setName(save.getName());
+        roomDTO.setCapacity(save.getCapacity());
+        roomDTO.setCountOfChair(save.getCountOfChair());
+        roomDTO.setCountOfTable(save.getCountOfTable());
+        return roomDTO;
     }
     @Transactional
     public RoomDTO delete(Long id) {

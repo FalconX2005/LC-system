@@ -42,10 +42,17 @@ public class Employee  extends AbsLongEntity {
 
     private Long salary;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "attachment_id")
     private Attachment attachment;
+
+    @PreRemove
+    private void preRemove() {
+        if (user != null) {
+            user.setDeleted(true);
+        }
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.AttachmentDTO;
+import uz.pdp.lcsystem.payload.withoutId.AttachmentDto;
 import uz.pdp.lcsystem.service.AttachmentService;
 
 /**

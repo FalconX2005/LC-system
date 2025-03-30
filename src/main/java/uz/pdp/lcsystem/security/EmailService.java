@@ -20,8 +20,8 @@ public class EmailService {
         message.setTo(email);
         message.setFrom("email@gmail.com");
         message.setSubject("Reset Password");
-        message.setText("Reset password link to: \n" +
-                "http://localhost:8080/auth/reset-password?token=" + token);
+        message.setText("Parolni bu token orqali o'zgartirish mumkin: \n" +
+                "Tokendan nusxa olish:   " + token);
         mailSender.send(message);
     }
 }

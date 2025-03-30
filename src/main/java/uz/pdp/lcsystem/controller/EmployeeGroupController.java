@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.entity.EmployeeGroup;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.EmployeeGroupDTO;
+import uz.pdp.lcsystem.payload.withoutId.EmployeeGroupDto;
 import uz.pdp.lcsystem.service.EmployeeGroupService;
 
 import java.util.List;
@@ -15,14 +16,14 @@ import java.util.List;
  * DateTime: 3/26/2025 1:29 PM
  */
 @RestController
-@RequestMapping("/empgroup")
+@RequestMapping("/emplgroup")
 @RequiredArgsConstructor
 public class EmployeeGroupController {
 
     private final EmployeeGroupService employeeGroupService;
 
     @Secured({"ADMIN","MANAGER"})
-    @GetMapping("/getall")
+    @GetMapping("/read")
     public ApiResult<List<EmployeeGroupDTO>> getAll() {
         List<EmployeeGroupDTO> employeeGroups = employeeGroupService.getAll();
         return ApiResult.success(employeeGroups);
@@ -37,16 +38,16 @@ public class EmployeeGroupController {
 
     @Secured({"ADMIN"})
     @PostMapping("/assign-employee")
-    public ApiResult<EmployeeGroupDTO> connectEmployee(@RequestBody EmployeeGroupDTO employeeGroupDTO) {
+    public ApiResult<EmployeeGroupDTO> connectEmployee(@RequestBody EmployeeGroupDto employeeGroupDTO) {
         EmployeeGroupDTO groupDTO = employeeGroupService.assignEmployeeToGroup(employeeGroupDTO);
         return ApiResult.success(groupDTO);
     }
     @Secured({"ADMIN"})
     @PutMapping("/update/{id}")
     public ApiResult<EmployeeGroupDTO> updateEmployee(@PathVariable Long id,
-                                                      @RequestBody EmployeeGroupDTO employeeGroupDTO) {
+                                                      @RequestBody EmployeeGroupDto employeeGroupDTO) {
 
-        EmployeeGroupDTO groupDTO = employeeGroupService.update(employeeGroupDTO);
+        EmployeeGroupDTO groupDTO = employeeGroupService.update(id,employeeGroupDTO);
         return ApiResult.success(groupDTO);
     }
 

@@ -6,9 +6,8 @@ import uz.pdp.lcsystem.entity.Employee;
 import uz.pdp.lcsystem.entity.Group;
 import uz.pdp.lcsystem.entity.attendences.TeacherAttendance;
 import uz.pdp.lcsystem.exception.RestException;
-import uz.pdp.lcsystem.payload.ApiResult;
-import uz.pdp.lcsystem.payload.StudentAttendanceDTO;
 import uz.pdp.lcsystem.payload.TeacherAttendanceDTO;
+import uz.pdp.lcsystem.payload.withoutId.TeacherAttendanceDto;
 import uz.pdp.lcsystem.repository.EmployeeRepository;
 import uz.pdp.lcsystem.repository.GroupRepository;
 import uz.pdp.lcsystem.repository.TeacherAttendanceRepository;
@@ -38,9 +37,9 @@ public class TeacherAttendanceService {
 
         for (TeacherAttendance teacherAttendance : teacherAttendanceList) {
             TeacherAttendanceDTO attendanceDTO = TeacherAttendanceDTO.builder().
+                    id(teacherAttendance.getId()).
                     attendanceDate(teacherAttendance.getAttendanceDate()).
                     groupId(teacherAttendance.getGroup().getId()).
-                    teacherName(teacherAttendance.getEmployee().getFirstName()).
                     teacherId(teacherAttendance.getEmployee().getId()).
                     status(teacherAttendance.isStatus()).
                     build();
@@ -60,9 +59,9 @@ public class TeacherAttendanceService {
         List<TeacherAttendanceDTO> resList = new ArrayList<>();
         for (TeacherAttendance teacherAttendance : byGroupId) {
             TeacherAttendanceDTO attendanceDTO = TeacherAttendanceDTO.builder().
+                    id(teacherAttendance.getId()).
                     attendanceDate(teacherAttendance.getAttendanceDate()).
                     groupId(teacherAttendance.getGroup().getId()).
-                    teacherName(teacherAttendance.getEmployee().getFirstName()).
                     teacherId(teacherAttendance.getEmployee().getId()).
                     status(teacherAttendance.isStatus()).
                     build();
@@ -77,9 +76,11 @@ public class TeacherAttendanceService {
 
     }
 
-    public List<TeacherAttendanceDTO> createTeacherAttendance(List<TeacherAttendanceDTO> attendanceDTO) {
+    public List<TeacherAttendanceDTO> createTeacherAttendance(List<TeacherAttendanceDto> attendanceDTO) {
 
-        for (TeacherAttendanceDTO teacherAttendanceDTO : attendanceDTO) {
+        List<TeacherAttendanceDTO> resList = new ArrayList<>();
+
+        for (TeacherAttendanceDto teacherAttendanceDTO : attendanceDTO) {
 
             TeacherAttendance teacherAttendance = TeacherAttendance.builder().
                     attendanceDate(teacherAttendanceDTO.getAttendanceDate()).
@@ -103,10 +104,18 @@ public class TeacherAttendanceService {
                 throw RestException.notFound("Teacher is not found ", teacherAttendanceDTO.getTeacherId());
             }
 
-            teacherAttendanceRepository.save(teacherAttendance);
+            TeacherAttendance save = teacherAttendanceRepository.save(teacherAttendance);
+            TeacherAttendanceDTO build = TeacherAttendanceDTO.builder().
+                    id(save.getId()).
+                    attendanceDate(save.getAttendanceDate()).
+                    groupId(save.getGroup().getId()).
+                    teacherId(save.getEmployee().getId()).
+                    status(save.isStatus()).
+                    build();
+            resList.add(build);
         }
 
-        return attendanceDTO;
+        return resList;
     }
 
 }

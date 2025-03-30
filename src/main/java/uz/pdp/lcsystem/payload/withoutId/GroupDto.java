@@ -1,6 +1,5 @@
-package uz.pdp.lcsystem.payload;
+package uz.pdp.lcsystem.payload.withoutId;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +17,9 @@ import java.util.List;
 @Data
 @Builder
 
-public class GroupDTO {
+public class GroupDto {
 
-    private Long id;
+
 
     @NotBlank(message = "name bush bulishi mumkun emas")
     private String name;

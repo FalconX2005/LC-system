@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.lcsystem.payload.ApiResult;
 
 import uz.pdp.lcsystem.payload.StudentDTO;
+import uz.pdp.lcsystem.payload.withoutId.StudentDto;
 import uz.pdp.lcsystem.service.SearchService;
 import uz.pdp.lcsystem.service.StudentService;
 
@@ -41,14 +42,14 @@ public class StudentController {
     }
     @Secured({"ADMIN","MANAGER"})
     @PostMapping("/create")
-    public ApiResult<StudentDTO> create(@RequestBody StudentDTO studentDto) {
+    public ApiResult<StudentDTO> create(@RequestBody StudentDto studentDto) {
         StudentDTO result = studentService.create(studentDto);
         return ApiResult.success(result);
     }
 
     @Secured({"ADMIN","MANAGER"})
     @PutMapping("/update/{id}")
-    public ApiResult<StudentDTO> update(@PathVariable Long id, @RequestBody StudentDTO studentDto) {
+    public ApiResult<StudentDTO> update(@PathVariable Long id, @RequestBody StudentDto studentDto) {
         StudentDTO result = studentService.update(id, studentDto);
         return ApiResult.success(result);
     }

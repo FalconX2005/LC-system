@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.lcsystem.payload.ApiResult;
 import uz.pdp.lcsystem.payload.GroupDTO;
 import uz.pdp.lcsystem.payload.SearchGroupDTO;
+import uz.pdp.lcsystem.payload.withoutId.GroupDto;
 import uz.pdp.lcsystem.service.GroupService;
 import uz.pdp.lcsystem.service.SearchService;
 
@@ -51,7 +52,7 @@ public class GroupController {
     @Secured({"ADMIN","MANAGER"})
     @Operation(summary = "Create a new group", description = "Create a new group with course, teacher, students, and room")
     @PostMapping
-    public ApiResult<GroupDTO> createGroup(@RequestBody GroupDTO groupDTO) {
+    public ApiResult<GroupDTO> createGroup(@RequestBody GroupDto groupDTO) {
         GroupDTO createdGroup = groupService.createGroup(groupDTO);
         return ApiResult.success(createdGroup);
     }
@@ -60,7 +61,7 @@ public class GroupController {
     @Secured({"ADMIN","MANAGER"})
     @Operation(summary = "Update a group", description = "Update an existing group by ID")
     @PutMapping("/{id}")
-    public ApiResult<GroupDTO> updateGroup(@PathVariable Long id, @RequestBody GroupDTO groupDTO) {
+    public ApiResult<GroupDTO> updateGroup(@PathVariable Long id, @RequestBody GroupDto groupDTO) {
         GroupDTO updatedGroup = groupService.updateGroup(id, groupDTO);
         return ApiResult.success(updatedGroup);
     }

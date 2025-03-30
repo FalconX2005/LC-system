@@ -1,5 +1,5 @@
 
-package uz.pdp.lcsystem.payload;
+package uz.pdp.lcsystem.payload.withoutId;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -16,9 +16,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 @Builder
-public class StudentAttendanceDTO {
+public class StudentAttendanceDto{
 
-    private Long id ;
 
     @NotNull(message = "studentId bush bulishi mumkun emas!")
     private Long studentId;
