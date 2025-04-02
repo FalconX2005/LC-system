@@ -63,8 +63,8 @@ public class FinanceController {
 
     @Secured({"ADMIN","MANAGER"})
     @PutMapping("/payment/update")
-    public ApiResult<PaymentDTO> update(@RequestBody LocalDate date , @RequestBody Long studentId ){
-        PaymentDTO byStudentId = paymentService.getByStudentId(studentId, date);
+    public ApiResult<PaymentDTO> update(@RequestParam Long paymentId , @RequestParam Long sum ){
+        PaymentDTO byStudentId = paymentService.update(paymentId,sum);
         return ApiResult.success(byStudentId);
     }
 

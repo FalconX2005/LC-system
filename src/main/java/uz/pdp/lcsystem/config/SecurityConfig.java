@@ -40,12 +40,13 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(conf -> conf
                 .requestMatchers(
-                        "/auth/**"
-                        ,"/api/attachment/upload"
-                        ,"/v3/api-docs/**",
-                        "/swagger-ui/**",
-                        "/swagger-ui.html",
-                        "/api/attachment/**"
+                        "/**"
+//                        "/auth/**"
+//                        ,"/api/attachment/upload"
+//                        ,"/v3/api-docs/**",
+//                        "/swagger-ui/**",
+//                        "/swagger-ui.html",
+//                        "/api/attachment/**"
                 ).permitAll()
                 .anyRequest()
                 .authenticated()

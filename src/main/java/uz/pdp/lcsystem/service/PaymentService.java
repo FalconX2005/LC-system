@@ -63,30 +63,67 @@ public class PaymentService {
 
     //student ni id si va keyingi tolov qilishi kerak bolgan sanasidan foydalanib tekshirib agar tolov qilmagan bosa tolov qilish
     // qilgan bolsa ozini qaytarish uchun yozilgan
-    public PaymentDTO getByStudentId(Long studentId, LocalDate paymentDate) {
-        Payment paymentDate1 = paymentRepository
-                .findByStudentIdAndPaymentDate(studentId, paymentDate);
+//    public PaymentDTO getByStudentId(Long studentId) {
+////        Payment paymentDate1 = paymentRepository
+////                .findByStudentIdAndPaymentDate(studentId, paymentDate);
+//
+//        if (paymentDate1.isPaid()){
+//
+//            throw RestException.error("Student already pay");
+//        }
+//
+//        paymentDate1.setPaid(true);
+//
+//         paymentRepository.save(paymentDate1);
+//
+//        PaymentDTO result = PaymentDTO.builder()
+//                .paid(paymentDate1.isPaid())
+//                .amount(paymentDate1.getAmount())
+//                .date(paymentDate1.getPaymentDate())
+//                .groupId(paymentDate1.getGroup().getId())
+//                .studentId(studentId)
+//                .id(paymentDate1.getId())
+//                .build();
+//        return result;
+    public PaymentDTO update(Long id,Long sum){
+        Payment payment = paymentRepository.findById(id).get();
+        System.out.println(payment.getPaymentDate());
 
-        if (paymentDate1.isPaid()){
-
-            throw RestException.error("Student already pay");
+        if (sum > payment.getAmount() || payment.getAmount()-sum < 0) {
+            payment.setPaid(true);
+            throw RestException.error("student already paid");
         }
+        payment.setAmount(payment.getAmount()-sum);
+        payment.setPaymentDate((LocalDate) payment.getPaymentDate());
+        payment.setPaid(false);
+        payment.setStudent(payment.getStudent());
+        payment.setGroup(payment.getGroup());
+        Payment save = paymentRepository.save(payment);
 
-        paymentDate1.setPaid(true);
-
-         paymentRepository.save(paymentDate1);
-
-        PaymentDTO result = PaymentDTO.builder()
-                .paid(paymentDate1.isPaid())
-                .amount(paymentDate1.getAmount())
-                .date(paymentDate1.getPaymentDate())
-                .groupId(paymentDate1.getGroup().getId())
-                .studentId(studentId)
-                .id(paymentDate1.getId())
+        PaymentDTO build = PaymentDTO.builder()
+                .amount(save.getAmount())
+                .date((LocalDate) save.getPaymentDate())
+                .groupId(save.getGroup().getId())
+                .studentId(save.getStudent().getId())
+                .id(save.getId())
+                .paid(save.isPaid())
                 .build();
-        return result;
+
+        /*PaymentDTO build = PaymentDTO.builder()
+                .amount(save.getAmount())
+                .date(save.getPaymentDate())
+                .groupId(save.getGroup() != null ? save.getGroup().getId() : null)
+                .studentId(save.getStudent() != null ? save.getStudent().getId() : null)
+                .id(save.getId())
+                .paid(save.isPaid())
+                .build();*/
+
+
+        return  build;
+
     }
 
+//    }
     public PaymentDTO create(PaymentDto paymentDTO) {
 
         PaymentDTO result = new PaymentDTO();
